@@ -4,5 +4,14 @@ using basicForms.Models.Shapes;
 
 Console.WriteLine("Basic Shapes - UHA 4.0.2");
 
+Console.WriteLine("");
+
 RectangleShape rectangleTest = new RectangleShape("Test Rectangle", 10.65, 5.87);
 rectangleTest.Display();
+
+Console.WriteLine("");
+
+CircleShape circleTest = new CircleShape("Test Cercle", 5.65);
+circleTest.Display();
+
+TriangleShape triangleTest = new TriangleShape("Test Triangle");

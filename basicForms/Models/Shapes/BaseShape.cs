@@ -28,6 +28,8 @@ namespace basicForms.Models.Shapes
         public virtual void Display()
         {
             Console.WriteLine($"Nom de la forme : {Name}");
+            Console.WriteLine($"Aire : {Surface()}");
+            Console.WriteLine($"Périmètre : {Perimeter()}");
         }
     }
 }

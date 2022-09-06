@@ -42,10 +42,8 @@ namespace basicForms.Models.Shapes
 
         public override void Display()
         {
-            base.Display();
             Console.WriteLine("Type de la forme : Rectangle");
-            Console.WriteLine($"Aire : {Surface()}");
-            Console.WriteLine($"Périmètre : {Perimeter()}");
+            base.Display();
         }
         #endregion
     }
