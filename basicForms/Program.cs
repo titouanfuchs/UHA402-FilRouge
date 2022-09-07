@@ -4,7 +4,7 @@ using basicForms.Models.Shapes;
 
 Console.WriteLine("Basic Shapes - UHA 4.0.2");
 
-int ShapeCount = 100;
+int ShapeCount = 1;
 double total = 0;
 Random rnd = new Random();
 
@@ -29,5 +29,7 @@ for(int i = 0; i < ShapeCount; i++)
             break;
     }
 }
+
+shapes.AddShape(new RectangleShape3D("Rectangle 3D"));
 
 shapes.Display();
