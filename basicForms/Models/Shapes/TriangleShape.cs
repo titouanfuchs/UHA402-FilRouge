@@ -17,7 +17,6 @@ namespace basicForms.Models.Shapes
         private double _BaseLenght = 1;
         public double BaseLenght { get => _BaseLenght; }
         public double SetBaseLenght { set => _BaseLenght = value; }
-        #endregion
 
         //B
         private double _SideOne = 1;
@@ -29,6 +28,8 @@ namespace basicForms.Models.Shapes
         public double SideTwo { get => _SideTwo; }
         public double SetSideTwo { set => _SideTwo = value; }
 
+        #endregion
+
         public TriangleShape(string name, bool isRectangle,double baseLenght, double sideOne, double sideTwo) : base(name)
         {
             _IsRectangle = isRectangle;
@@ -36,6 +37,8 @@ namespace basicForms.Models.Shapes
             _SideOne = sideOne < 0 ? -sideOne : sideOne;
             _SideTwo = sideTwo <0 ? -sideTwo : sideTwo;
         }
+
+        #region Methods
 
         public override double Surface()
         {
@@ -69,5 +72,7 @@ namespace basicForms.Models.Shapes
             if (_TriangleExist())
                 base.Display();
         }
+
+        #endregion
     }
 }

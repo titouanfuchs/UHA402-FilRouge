@@ -19,6 +19,7 @@ namespace basicForms.Models.Shapes
             _Diameter = diameter;
         }
 
+        #region Methods
         public override double Perimeter()
         {
             return 2 * Math.PI * (_Diameter/2);
@@ -36,5 +37,6 @@ namespace basicForms.Models.Shapes
             Console.WriteLine("Type de la forme : Cercle");
             base.Display();
         }
+        #endregion
     }
 }

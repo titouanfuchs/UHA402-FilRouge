@@ -8,16 +8,18 @@ namespace basicForms.Models.Shapes
 {
     public class BaseShape
     {
+        #region Fields
         protected string _Name = "Nouvelle forme";
-
         public string Name { get => _Name; }
         public string SetName { set => _Name = value; }
+        #endregion
 
         public BaseShape(string name)
         {
             _Name = name;
         }
 
+        #region
         public virtual double Surface()
         {
             throw new NotImplementedException();
@@ -34,5 +36,6 @@ namespace basicForms.Models.Shapes
             Console.WriteLine($"Aire : {Surface()}");
             Console.WriteLine($"Périmètre : {Perimeter()}");
         }
+        #endregion
     }
 }
