@@ -4,17 +4,30 @@ using basicForms.Models.Shapes;
 
 Console.WriteLine("Basic Shapes - UHA 4.0.2");
 
-Console.WriteLine("");
-
-RectangleShape rectangleTest = new RectangleShape("Test Rectangle", 10.65, 5.87);
-rectangleTest.Display();
-
-Console.WriteLine("");
-
-CircleShape circleTest = new CircleShape("Test Cercle", 5.65);
-circleTest.Display();
+int ShapeCount = 100;
+double total = 0;
+Random rnd = new Random();
 
 Console.WriteLine("");
 
-TriangleShape triangleTest = new TriangleShape("Test Triangle", false,10, 6, 6);
-triangleTest.Display();
+ShapeGroup shapes = new ShapeGroup("Mon super groupe");
+
+for(int i = 0; i < ShapeCount; i++)
+{
+    int rand = rnd.Next(0, 3);
+
+    switch (rand)
+    {
+        case 0:
+            shapes.AddShape(new RectangleShape($"Rectangle_{Guid.NewGuid()}", rnd.Next(1, 1000), rnd.Next(1, 1000)));
+            break;
+        case 1:
+            shapes.AddShape(new CircleShape($"Circle_{Guid.NewGuid()}", rnd.Next(1, 1000)));
+            break;
+        case 2:
+            shapes.AddShape(new TriangleShape($"Triangle_{Guid.NewGuid()}", rnd.Next(1, 1000), rnd.Next(1, 1000), rnd.Next(1, 1000)));
+            break;
+    }
+}
+
+shapes.Display();
