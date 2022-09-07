@@ -10,17 +10,17 @@ namespace basicForms.Models.Shapes
     {
         #region Fields
         //A
-        private double _BaseLenght = 1;
+        protected double _BaseLenght = 1;
         public double BaseLenght { get => _BaseLenght; }
         public double SetBaseLenght { set => _BaseLenght = value; }
 
         //B
-        private double _SideOne = 1;
+        protected double _SideOne = 1;
         public double SideOne { get => _SideOne; }
         public double SetSideOne { set => _SideOne = value; }
 
         //C
-        private double _SideTwo = 1;
+        protected double _SideTwo = 1;
         public double SideTwo { get => _SideTwo; }
         public double SetSideTwo { set => _SideTwo = value; }
 

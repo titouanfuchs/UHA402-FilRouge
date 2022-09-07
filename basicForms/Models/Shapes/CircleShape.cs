@@ -9,7 +9,7 @@ namespace basicForms.Models.Shapes
     public class CircleShape : BaseShape
     {
         #region Fields
-        private double _Diameter = 0;
+        protected double _Diameter = 0;
         public double Diameter { get => _Diameter; }
         public double SetDiameter { set => _Diameter = value; }
         #endregion

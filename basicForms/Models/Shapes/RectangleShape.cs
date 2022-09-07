@@ -9,8 +9,8 @@ namespace basicForms.Models.Shapes
     public class RectangleShape : BaseShape
     {
         #region Fields
-        private double _Lenght = 0;
-        private double _Width = 0;
+        protected double _Lenght = 0;
+        protected double _Width = 0;
         public double Width { get => _Width; }
         public double SetWidth
         {
