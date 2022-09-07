@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace basicForms.Models.Shapes
 {
-    public class BaseShape
+    public abstract class BaseShape
     {
         #region Fields
         protected string _Name = "Nouvelle forme";
@@ -20,15 +20,9 @@ namespace basicForms.Models.Shapes
         }
 
         #region
-        public virtual double Surface()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract double Surface();
 
-        public virtual double Perimeter()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract double Perimeter();
 
         public virtual void Display()
         {
@@ -36,6 +30,7 @@ namespace basicForms.Models.Shapes
             Console.WriteLine($"Aire : {Surface()}");
             Console.WriteLine($"Périmètre : {Perimeter()}");
         }
+
         #endregion
     }
 }
