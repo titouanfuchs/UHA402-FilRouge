@@ -14,4 +14,7 @@ Console.WriteLine("");
 CircleShape circleTest = new CircleShape("Test Cercle", 5.65);
 circleTest.Display();
 
-TriangleShape triangleTest = new TriangleShape("Test Triangle");
+Console.WriteLine("");
+
+TriangleShape triangleTest = new TriangleShape("Test Triangle", false,10, 6, 5);
+triangleTest.Display();
