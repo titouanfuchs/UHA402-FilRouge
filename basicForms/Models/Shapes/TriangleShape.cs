@@ -9,10 +9,6 @@ namespace basicForms.Models.Shapes
     public class TriangleShape : BaseShape
     {
         #region Fields
-
-        private bool _IsRectangle = false;
-        public bool IsRectangle { get => _IsRectangle; }
-
         //A
         private double _BaseLenght = 1;
         public double BaseLenght { get => _BaseLenght; }
@@ -30,9 +26,8 @@ namespace basicForms.Models.Shapes
 
         #endregion
 
-        public TriangleShape(string name, bool isRectangle,double baseLenght, double sideOne, double sideTwo) : base(name)
+        public TriangleShape(string name, double baseLenght, double sideOne, double sideTwo) : base(name)
         {
-            _IsRectangle = isRectangle;
             _BaseLenght = baseLenght < 0 ? -baseLenght : baseLenght;
             _SideOne = sideOne < 0 ? -sideOne : sideOne;
             _SideTwo = sideTwo <0 ? -sideTwo : sideTwo;
@@ -42,9 +37,10 @@ namespace basicForms.Models.Shapes
 
         public override double Surface()
         {
-            double surface = 0;
+            if (!TriangleExist())
+                return 0;
 
-            double p = Perimeter() / 2;
+            double p = Perimeter() / (double)2;
 
             return Math.Sqrt(p*(p-_BaseLenght)*(p-_SideOne)*(p-_SideTwo));
         }
@@ -54,7 +50,7 @@ namespace basicForms.Models.Shapes
             return _BaseLenght + _SideOne + _SideTwo;
         }
 
-        private bool _TriangleExist()
+        public bool TriangleExist()
         {
             if (_BaseLenght + _SideOne <= _SideTwo) return false;
             if (_BaseLenght + _SideTwo <= _SideOne) return false;
@@ -67,9 +63,9 @@ namespace basicForms.Models.Shapes
         public override void Display()
         {
             Console.WriteLine("Type de la forme : Triangle");
-            Console.WriteLine($"Le triangle existe : {_TriangleExist()}");
+            Console.WriteLine($"Le triangle existe : {TriangleExist()}");
 
-            if (_TriangleExist())
+            if (TriangleExist())
                 base.Display();
         }
 

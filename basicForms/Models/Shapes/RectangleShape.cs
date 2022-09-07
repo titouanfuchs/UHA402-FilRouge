@@ -37,7 +37,7 @@ namespace basicForms.Models.Shapes
 
         public override double Perimeter()
         {
-            return _Lenght * 2 + _Width * 2;
+            return _Lenght * (double)2 + _Width * (double)2;
         }
 
         public override void Display()
