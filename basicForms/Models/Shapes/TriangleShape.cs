@@ -51,10 +51,23 @@ namespace basicForms.Models.Shapes
             return _BaseLenght + _SideOne + _SideTwo;
         }
 
+        private bool _TriangleExist()
+        {
+            if (_BaseLenght + _SideOne <= _SideTwo) return false;
+            if (_BaseLenght + _SideTwo <= _SideOne) return false;
+            if (_SideOne + _SideTwo <= _BaseLenght) return false;
+
+            return true;
+        }
+
+
         public override void Display()
         {
             Console.WriteLine("Type de la forme : Triangle");
-            base.Display();
+            Console.WriteLine($"Le triangle existe : {_TriangleExist()}");
+
+            if (_TriangleExist())
+                base.Display();
         }
     }
 }

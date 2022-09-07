@@ -16,5 +16,5 @@ circleTest.Display();
 
 Console.WriteLine("");
 
-TriangleShape triangleTest = new TriangleShape("Test Triangle", false,10, 6, 5);
+TriangleShape triangleTest = new TriangleShape("Test Triangle", false,10, 6, 6);
 triangleTest.Display();
