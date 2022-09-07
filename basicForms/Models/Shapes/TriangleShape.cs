@@ -13,23 +13,18 @@ namespace basicForms.Models.Shapes
         private bool _IsRectangle = false;
         public bool IsRectangle { get => _IsRectangle; }
 
-        // H
-        private double _HLenght = 1;
-        public double HLenght { get => _HLenght; }
-        public double SetHLenght { set => _HLenght = value; }
-
-        //BC
+        //A
         private double _BaseLenght = 1;
         public double BaseLenght { get => _BaseLenght; }
         public double SetBaseLenght { set => _BaseLenght = value; }
         #endregion
 
-        //BA
+        //B
         private double _SideOne = 1;
         public double SideOne { get => _SideOne; }
         public double SetSideOne { set => _SideOne = value; }
 
-        //CA
+        //C
         private double _SideTwo = 1;
         public double SideTwo { get => _SideTwo; }
         public double SetSideTwo { set => _SideTwo = value; }
@@ -37,30 +32,9 @@ namespace basicForms.Models.Shapes
         public TriangleShape(string name, bool isRectangle,double baseLenght, double sideOne, double sideTwo) : base(name)
         {
             _IsRectangle = isRectangle;
-            _HLenght = _CalculateH();
-            _BaseLenght = baseLenght;
-            _SideOne = sideOne;
-            _SideTwo = sideTwo;
-        }
-
-        private double _CalculateH()
-        {
-            double diva;
-            double pa;
-            double pb;
-            double pc;
-            double hauteur;
-            double peri;
-            peri = Perimeter() / 2;
-            pc = peri - _SideTwo;
-            pb = peri - _SideOne;
-            pa = peri - _BaseLenght;
-            hauteur = peri * pa * pb * pc;
-            hauteur = Math.Sqrt(hauteur);
-            diva = _BaseLenght;
-            hauteur = diva * hauteur;
-
-            return hauteur;
+            _BaseLenght = baseLenght < 0 ? -baseLenght : baseLenght;
+            _SideOne = sideOne < 0 ? -sideOne : sideOne;
+            _SideTwo = sideTwo <0 ? -sideTwo : sideTwo;
         }
 
         public override double Surface()
@@ -80,7 +54,6 @@ namespace basicForms.Models.Shapes
         public override void Display()
         {
             Console.WriteLine("Type de la forme : Triangle");
-            Console.WriteLine($"Hauteur : {_HLenght}");
             base.Display();
         }
     }

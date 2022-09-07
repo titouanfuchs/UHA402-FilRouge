@@ -8,11 +8,14 @@ namespace basicForms.Models.Shapes
 {
     public class BaseShape
     {
-        public string Name = "Nouvelle forme";
+        protected string _Name = "Nouvelle forme";
+
+        public string Name { get => _Name; }
+        public string SetName { set => _Name = value; }
 
         public BaseShape(string name)
         {
-            Name = name;
+            _Name = name;
         }
 
         public virtual double Surface()
@@ -27,7 +30,7 @@ namespace basicForms.Models.Shapes
 
         public virtual void Display()
         {
-            Console.WriteLine($"Nom de la forme : {Name}");
+            Console.WriteLine($"Nom de la forme : {_Name}");
             Console.WriteLine($"Aire : {Surface()}");
             Console.WriteLine($"Périmètre : {Perimeter()}");
         }
