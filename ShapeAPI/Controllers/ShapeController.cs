@@ -32,7 +32,7 @@ namespace ShapeAPI.Controllers
         [HttpPatch("{id}")]
         public async Task<IActionResult> Edit(int id, [FromBody] CreateShape shapeQuery)
         {
-            return Ok();
+            return Ok(_ShapesService.EditShape(id, shapeQuery));
         }
 
         [HttpDelete("{id}")]

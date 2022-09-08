@@ -1,4 +1,5 @@
-﻿
+﻿using Microsoft.AspNetCore.Rewrite;
+
 namespace ShapeAPI.Services
 {
     public class ShapesService
@@ -43,7 +44,65 @@ namespace ShapeAPI.Services
             if (shape is null)
                 throw new ArgumentException($"Shape with ID {id} not found.");
 
+            Type type = shape.GetType();
 
+            if (type == typeof(RectangleShape))
+            {
+                RectangleShape? rect = shape as RectangleShape;
+
+                rect!.SetWidth = (double)(editQuery.Width is not null ? editQuery.Width : rect.Width);
+                rect!.SetLenght = (double)(editQuery.Lenght is not null ? editQuery.Lenght : rect.Lenght);
+
+                shape = rect;
+            }
+            else if (type == typeof(RectangleShape3D))
+            {
+                RectangleShape3D? rect = shape as RectangleShape3D;
+
+                rect!.SetWidth = (double)(editQuery.Width is not null ? editQuery.Width : rect.Width);
+                rect!.SetLenght = (double)(editQuery.Lenght is not null ? editQuery.Lenght : rect.Lenght);
+                rect!.SetHeight = (double)(editQuery.Height is not null ? editQuery.Height : rect.Height);
+
+                shape = rect;
+            }
+            else if (type == typeof(CircleShape))
+            {
+                CircleShape? circle = shape as CircleShape;
+
+                circle!.SetDiameter = (double)(editQuery.Diameter is not null ? editQuery.Diameter : circle.Diameter);
+
+                shape = circle;
+            }
+            else if (type == typeof(CircleShape3D))
+            {
+                CircleShape3D? circle = shape as CircleShape3D;
+
+                circle!.SetDiameter = (double)(editQuery.Diameter is not null ? editQuery.Diameter : circle.Diameter);
+                circle!.SetHeight = (double)(editQuery.Height is not null ? editQuery.Height : circle.Height);
+
+                shape = circle;
+            }
+            else if (type == typeof(TriangleShape))
+            {
+                TriangleShape? triangle = shape as TriangleShape;
+
+                triangle!.SetBaseLenght = (double)(editQuery.Base is not null ? editQuery.Base : triangle.BaseLenght);
+                triangle!.SetSideOne = (double)(editQuery.SideOne is not null ? editQuery.SideOne : triangle.SideOne);
+                triangle!.SetSideTwo = (double)(editQuery.SideTwo is not null ? editQuery.SideTwo : triangle.SideTwo);
+
+                shape = triangle;
+            }
+            else if (type == typeof(TriangleShape3D))
+            {
+                TriangleShape3D? triangle = shape as TriangleShape3D;
+
+                triangle!.SetBaseLenght = (double)(editQuery.Base is not null ? editQuery.Base : triangle.BaseLenght);
+                triangle!.SetSideOne = (double)(editQuery.SideOne is not null ? editQuery.SideOne : triangle.SideOne);
+                triangle!.SetSideTwo = (double)(editQuery.SideTwo is not null ? editQuery.SideTwo : triangle.SideTwo);
+                triangle!.SetHeight = (double)(editQuery.Height is not null ? editQuery.Height : triangle.Height);
+
+                shape = triangle;
+            }
 
             return shape;
         }
