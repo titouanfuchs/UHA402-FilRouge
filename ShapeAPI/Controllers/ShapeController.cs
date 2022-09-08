@@ -23,6 +23,12 @@ namespace ShapeAPI.Controllers
             return Ok(_ShapesService.GetAll());
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<BaseShape>> Get(int id)
+        {
+            return Ok(_ShapesService.Get(id));
+        }
+
         [HttpPatch("{id}")]
         public async Task<IActionResult> Edit(int id, [FromBody] CreateShape shapeQuery)
         {

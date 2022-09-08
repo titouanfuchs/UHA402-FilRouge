@@ -18,6 +18,11 @@ namespace ShapeAPI.Services
             return new GetAllShapesResponse("Success", _Shapes);
         }
 
+        public BaseShape Get(int id)
+        {
+            return _Shapes.Find(s => s.Id == id);
+        }
+
         public bool DeleteShape(int id)
         {
             try
@@ -29,6 +34,18 @@ namespace ShapeAPI.Services
                 Console.WriteLine(e);
                 return false;
             }
+        }
+
+        public BaseShape EditShape(int id, CreateShape editQuery)
+        {
+            BaseShape? shape = _Shapes.Find(s => s.Id == id);
+
+            if (shape is null)
+                throw new ArgumentException($"Shape with ID {id} not found.");
+
+
+
+            return shape;
         }
 
         public void CreateShape(CreateShape shapeQuery, ShapeDimension dimension, ShapeType type)
