@@ -12,6 +12,8 @@ services:
         restart: on-failure
         volumes:
             - ./ShapeAPI:/app
+            - /app/bin
+            - /app/obj
         ports:
             - ${PORT_API}:80
         

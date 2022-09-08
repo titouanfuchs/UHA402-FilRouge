@@ -17,6 +17,7 @@ namespace ShapeAPI.Models.Shapes
         public RectangleShape3D(string name, double lenght = 1, double width = 1, double height = 1) : base(name, lenght, width)
         {
             _Height = height;
+            _ShapeType = ShapeType.Rectangle3D;
         }
 
         #region Methods

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ShapeAPI.Models.DTO;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 
 namespace ShapeAPI.Controllers
 {
@@ -23,21 +24,35 @@ namespace ShapeAPI.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id, [FromBody] CreateShape shapeQuery)
         {
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<ActionResult<BaseResponse>> Delete(int id)
         {
-            return Ok();
+            bool deleted = _ShapesService.DeleteShape(id);
+
+            if (deleted)
+                return StatusCode(200, new BaseResponse("Forme supprimée avec succès"));
+
+            return StatusCode(500, new BaseResponse("Une erreur s'est produite lors de la suppression de la forme"));
         }
 
         [HttpPost("Shape")]
-        public async Task<IActionResult> CreateShape([FromQuery][Required] ShapeDimension shapeDimenstion, [FromQuery][Required] ShapeType shapeType,[FromBody][Required] CreateShape createQuery)
+        public async Task<ActionResult<BaseShape>> CreateShape([FromQuery] ShapeDimension shapeDimenstion, [FromQuery] ShapeType shapeType,[FromBody][Required] CreateShape createQuery)
         {
-            return Ok();
+            try
+            {
+                _ShapesService.CreateShape(createQuery, shapeDimenstion, shapeType);
+
+                return StatusCode(201, new BaseResponse($"New Shape created"));
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500, new BaseResponse($"Error : {e.Message}"));
+            }
         }
 
         [HttpPost("Group")]

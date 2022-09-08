@@ -17,6 +17,7 @@ namespace ShapeAPI.Models.Shapes
         public CircleShape3D(string name, double diameter, double height) : base(name, diameter)
         {
             _Height = height;
+            _ShapeType = ShapeType.Cylindre;
         }
 
         #region Methods

@@ -17,6 +17,7 @@ namespace ShapeAPI.Models.Shapes
         public TriangleShape3D(string name, double baseLenght, double sideOne, double sideTwo, double height) : base(name, baseLenght, sideOne, sideTwo)
         {
             _Height = height;
+            _ShapeType = ShapeType.Triangle3D;
         }
 
         #region Methods

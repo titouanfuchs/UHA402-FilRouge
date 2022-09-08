@@ -14,9 +14,16 @@ namespace ShapeAPI.Models.Shapes
         public string SetName { set => _Name = value; }
         #endregion
 
+        protected int _Id;
+        public int Id { get => _Id; }
+
+        protected ShapeType _ShapeType;
+        public ShapeType ShapeType { get => _ShapeType; }
+
         public BaseShape(string name)
         {
             _Name = name;
+            _Id = ShapesService.GetNewID();
         }
 
         #region

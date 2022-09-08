@@ -13,7 +13,7 @@ namespace ShapeAPI.Models.DTO
         /// <summary>
         /// Représente la hauteur de la forme. Nécéssaire uniquement si la forme est en 3D.
         /// </summary>
-        public double Height { get; set; }
+        public double? Height { get; set; }
         #endregion
 
         #region Rectangle

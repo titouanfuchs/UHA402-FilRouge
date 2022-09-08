@@ -14,7 +14,7 @@ builder.Services.AddSingleton<ShapesService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SchemaFilter<EnumSchemaFilter>();
+    //c.SchemaFilter<EnumSchemaFilter>();
 });
 
 var app = builder.Build();
