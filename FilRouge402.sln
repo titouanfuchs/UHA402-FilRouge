@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "basicForms", "basicForms\basicForms.csproj", "{786D077A-0709-48BE-80B0-BB15292835FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapeAPI", "ShapeAPI\ShapeAPI.csproj", "{531AB418-23BC-4E06-9711-9A2C3C7B6CB9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{786D077A-0709-48BE-80B0-BB15292835FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{786D077A-0709-48BE-80B0-BB15292835FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{786D077A-0709-48BE-80B0-BB15292835FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{531AB418-23BC-4E06-9711-9A2C3C7B6CB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{531AB418-23BC-4E06-9711-9A2C3C7B6CB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{531AB418-23BC-4E06-9711-9A2C3C7B6CB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{531AB418-23BC-4E06-9711-9A2C3C7B6CB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
