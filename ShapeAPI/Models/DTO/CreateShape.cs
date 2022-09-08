@@ -9,12 +9,12 @@ namespace basicForms.Models.DTO
         /// </summary>
         [Required] public string Name { get; set; } = "Nouvelle forme";
 
-        #region 3D
+        /*#region 3D
         /// <summary>
         /// Représente la hauteur de la forme. Nécéssaire uniquement si la forme est en 3D.
         /// </summary>
         public double? Height { get; set; }
-        #endregion
+        #endregion*/
 
         #region Rectangle
         /// <summary>

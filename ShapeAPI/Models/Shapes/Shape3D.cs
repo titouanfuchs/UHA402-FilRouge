@@ -15,6 +15,6 @@
             _Shape = shape;
         }
 
-        public double Volume { get => _Shape.Surface() * _Height; }
+        public double Volume { get => _Shape.CalculateSurface() * _Height; }
     }
 }

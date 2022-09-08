@@ -12,13 +12,16 @@ namespace basicForms.Models.Shapes
         protected string _Name = "Nouvelle forme";
         public string Name { get => _Name; }
         public string SetName { set => _Name = value; }
-        #endregion
 
         protected int _Id;
         public int Id { get => _Id; }
 
         protected ShapeType _ShapeType;
         public ShapeType ShapeType { get => _ShapeType; }
+
+        public double Surface { get => CalculateSurface(); }
+        public double Perimeter { get => CalculatePerimeter(); }
+        #endregion
 
         public BaseShape(string name)
         {
@@ -27,15 +30,15 @@ namespace basicForms.Models.Shapes
         }
 
         #region
-        public abstract double Surface();
+        public abstract double CalculateSurface();
 
-        public abstract double Perimeter();
+        public abstract double CalculatePerimeter();
 
         public virtual void Display()
         {
             Console.WriteLine($"Nom de la forme : {_Name}");
-            Console.WriteLine($"Aire : {Surface()}");
-            Console.WriteLine($"Périmètre : {Perimeter()}");
+            Console.WriteLine($"Aire : {CalculateSurface()}");
+            Console.WriteLine($"Périmètre : {CalculatePerimeter()}");
         }
 
         #endregion

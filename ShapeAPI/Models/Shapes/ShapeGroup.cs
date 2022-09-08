@@ -36,7 +36,7 @@ namespace basicForms.Models.Shapes
         public double CalculateTotalPerimeter()
         {
             double total = 0;
-            _Shapes.ForEach(s => total += s.Perimeter());
+            _Shapes.ForEach(s => total += s.CalculatePerimeter());
 
             return total;
         }
@@ -44,7 +44,7 @@ namespace basicForms.Models.Shapes
         public double CalculateTotalSurface()
         {
             double total = 0;
-            _Shapes.ForEach(s => total += s.Surface());
+            _Shapes.ForEach(s => total += s.CalculateSurface());
 
             return total;
         }

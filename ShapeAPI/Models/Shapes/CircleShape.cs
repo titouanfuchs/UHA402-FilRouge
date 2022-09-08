@@ -21,12 +21,12 @@ namespace basicForms.Models.Shapes
         }
 
         #region Methods
-        public override double Perimeter()
+        public override double CalculatePerimeter()
         {
             return 2 * Math.PI * (_Diameter/2);
         }
 
-        public override double Surface()
+        public override double CalculateSurface()
         {
             double r = _Diameter / 2;
 

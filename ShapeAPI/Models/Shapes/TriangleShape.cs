@@ -36,17 +36,17 @@ namespace basicForms.Models.Shapes
 
         #region Methods
 
-        public override double Surface()
+        public override double CalculateSurface()
         {
             if (!TriangleExist())
                 return 0;
 
-            double p = Perimeter() / (double)2;
+            double p = CalculatePerimeter() / (double)2;
 
             return Math.Sqrt(p*(p-_BaseLenght)*(p-_SideOne)*(p-_SideTwo));
         }
 
-        public override double Perimeter()
+        public override double CalculatePerimeter()
         {
             return _BaseLenght + _SideOne + _SideTwo;
         }

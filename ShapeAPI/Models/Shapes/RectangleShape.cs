@@ -31,12 +31,12 @@ namespace basicForms.Models.Shapes
         }
 
         #region Methods
-        public override double Surface()
+        public override double CalculateSurface()
         {
             return _Lenght * _Width;
         }
 
-        public override double Perimeter()
+        public override double CalculatePerimeter()
         {
             return _Lenght * (double)2 + _Width * (double)2;
         }
