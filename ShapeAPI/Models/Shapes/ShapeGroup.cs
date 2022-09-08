@@ -9,6 +9,10 @@ namespace basicForms.Models.Shapes
     public class ShapeGroup
     {
         #region Fields
+
+        private int _Id;
+        public int Id { get => _Id; }
+
         private List<BaseShape> _Shapes = new List<BaseShape>();
         public List<BaseShape> Shapes { get => Shapes; }
 
@@ -20,6 +24,7 @@ namespace basicForms.Models.Shapes
         public ShapeGroup(string groupName = "Nouveau Groupe")
         {
             _GroupName = groupName;
+            _Id = ShapesService.GetNewID();
         }
 
         #region Methods
