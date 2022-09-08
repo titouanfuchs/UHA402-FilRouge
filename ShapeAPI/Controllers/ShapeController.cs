@@ -19,7 +19,7 @@ namespace ShapeAPI.Controllers
         [HttpGet()]
         public async Task<ActionResult<GetAllShapesResponse>> GetAll()
         {
-            return Ok(new GetAllShapesResponse("Sucess", new List<Shape3DGroup>(), new List<ShapeGroup>()));
+            return Ok(_ShapesService.GetAll());
         }
 
         [HttpPatch("{id}")]
@@ -35,7 +35,7 @@ namespace ShapeAPI.Controllers
         }
 
         [HttpPost("Shape")]
-        public async Task<IActionResult> CreateShape()
+        public async Task<IActionResult> CreateShape([FromQuery][Required] ShapeDimension shapeDimenstion, [FromQuery][Required] ShapeType shapeType,[FromBody][Required] CreateShape createQuery)
         {
             return Ok();
         }
