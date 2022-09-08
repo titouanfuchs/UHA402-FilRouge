@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
     shape-api:
-        container_name: "ShapeAPI-Container"
+        container_name: "ShapeAPI"
         build: 
             dockerfile: Dockerfile
             context: ShapeAPI
