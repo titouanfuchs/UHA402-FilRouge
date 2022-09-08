@@ -10,9 +10,10 @@
         public double SetHeight { set => _Height = value; }
         public double Height { get => _Height; }
 
-        public Shape3D(BaseShape shape)
+        public Shape3D(BaseShape shape, double height)
         {
             _Shape = shape;
+            _Height = height;
         }
 
         public double Volume { get => _Shape.Surface() * _Height; }

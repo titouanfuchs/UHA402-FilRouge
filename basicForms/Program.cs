@@ -31,6 +31,26 @@ for(int i = 0; i < ShapeCount; i++)
     }
 }
 
+for (int i = 0; i < ShapeCount; i++)
+{
+    int rand = rnd.Next(0, 3);
+
+    switch (rand)
+    {
+        case 0:
+            shapes3D.AddShape(new Shape3D(new RectangleShape($"Rectangle3D_{Guid.NewGuid()}", rnd.Next(1, 1000), rnd.Next(1, 1000)), rnd.Next(1, 1000)));
+            break;
+        case 1:
+            shapes3D.AddShape(new Shape3D(new CircleShape($"Circle_{Guid.NewGuid()}", rnd.Next(1, 1000)), rnd.Next(1, 1000)));
+            break;
+        case 2:
+            shapes3D.AddShape(new Shape3D(new TriangleShape($"Triangle_{Guid.NewGuid()}", rnd.Next(1, 1000), rnd.Next(1, 1000), rnd.Next(1, 1000)), rnd.Next(1, 1000)));
+            break;
+    }
+}
+
 shapes.Display();
 
 Console.WriteLine("");
+
+shapes3D.Display();
