@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShapeAPI.Models.Shapes
+namespace basicForms.Models.Shapes
 {
     public class RectangleShape : BaseShape
     {

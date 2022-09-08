@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Rewrite;
 
-namespace ShapeAPI.Services
+namespace basicForms.Services
 {
     public class ShapesService
     {

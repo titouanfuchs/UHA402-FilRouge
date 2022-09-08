@@ -1,4 +1,4 @@
-﻿namespace ShapeAPI.Models.Shapes
+﻿namespace basicForms.Models.Shapes
 {
     public enum ShapeDimension
     {

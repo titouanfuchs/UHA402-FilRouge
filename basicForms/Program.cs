@@ -1,6 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using ShapeAPI.Models;
-using ShapeAPI.Models.Shapes;
+using basicForms.Models;
+using basicForms.Models.Shapes;
 
 Console.WriteLine("Basic Shapes - UHA 4.0.2");
 
@@ -31,26 +31,6 @@ for(int i = 0; i < ShapeCount; i++)
     }
 }
 
-for (int i = 0; i < ShapeCount; i++)
-{
-    int rand = rnd.Next(0, 3);
-
-    switch (rand)
-    {
-        case 0:
-            shapes3D.AddShape(new RectangleShape3D($"Rectangle_{Guid.NewGuid()}", rnd.Next(1, 1000), rnd.Next(1, 1000), rnd.Next(1, 1000)));
-            break;
-        case 1:
-            shapes3D.AddShape(new CircleShape3D($"Circle_{Guid.NewGuid()}", rnd.Next(1, 1000), rnd.Next(1, 1000)));
-            break;
-        case 2:
-            shapes3D.AddShape(new TriangleShape3D($"Triangle_{Guid.NewGuid()}", rnd.Next(1, 1000), rnd.Next(1, 1000), rnd.Next(1, 1000), rnd.Next(1, 1000)));
-            break;
-    }
-}
-
 shapes.Display();
 
 Console.WriteLine("");
-
-shapes3D.Display();

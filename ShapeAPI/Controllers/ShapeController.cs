@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ShapeAPI.Models.DTO;
+using basicForms.Models.DTO;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 
-namespace ShapeAPI.Controllers
+namespace basicForms.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
