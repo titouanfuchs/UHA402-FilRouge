@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ShapeAPI.Models.DTO;
+using System.ComponentModel.DataAnnotations;
 
 namespace ShapeAPI.Controllers
 {
@@ -7,19 +9,26 @@ namespace ShapeAPI.Controllers
     [ApiController]
     public class ShapeController : ControllerBase
     {
-        [HttpGet()]
-        public async Task<IActionResult> GetAll()
+        private ShapesService _ShapesService;
+
+        public ShapeController(ShapesService shapesService)
         {
-            return Ok();
+            _ShapesService = shapesService;
         }
 
-        [HttpPatch()]
+        [HttpGet()]
+        public async Task<ActionResult<GetAllShapesResponse>> GetAll()
+        {
+            return Ok(new GetAllShapesResponse("Sucess", new List<Shape3DGroup>(), new List<ShapeGroup>()));
+        }
+
+        [HttpPatch("{id}")]
         public async Task<IActionResult> Edit(int id)
         {
             return Ok();
         }
 
-        [HttpDelete()]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             return Ok();
@@ -38,7 +47,7 @@ namespace ShapeAPI.Controllers
         }
 
         [HttpPost("AddShapeToGroup")]
-        public async Task<IActionResult> AddShapeToGroup(int shapeID, int groupID)
+        public async Task<IActionResult> AddShapeToGroup([FromQuery][Required] int shapeID, [FromQuery][Required] int groupID)
         {
             return Ok();
         }
