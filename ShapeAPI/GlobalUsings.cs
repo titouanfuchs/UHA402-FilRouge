@@ -4,3 +4,4 @@ global using ShapeAPI.Models.DTO;
 global using ShapeAPI.Data;
 
 global using Microsoft.EntityFrameworkCore;
+global using System.ComponentModel.DataAnnotations;

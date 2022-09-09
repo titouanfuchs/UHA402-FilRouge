@@ -18,6 +18,8 @@ services:
             - ${PORT_API}:80
         depends_on:
             - shape-bdd
+        networks:
+            - intern
             
     shape-bdd:
         container_name: "ShapeBDD"
@@ -26,6 +28,8 @@ services:
         volumes: 
             - shape-bdd:/var/lib/postgresql/data
         env_file: ./.env
+        networks:
+            - intern
         
     app-adminer:
         container_name: "ShapeAdminer"
@@ -35,5 +39,11 @@ services:
             - ${PORT_ADMINER}:8080
         depends_on:
             - shape-bdd
+        networks:
+            - intern
 volumes:
     shape-bdd:
+    
+networks:
+    intern:
+        external: false

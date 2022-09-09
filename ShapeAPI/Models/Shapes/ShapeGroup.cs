@@ -10,8 +10,8 @@ namespace ShapeAPI.Models.Shapes
     {
         #region Fields
 
-        private int _Id;
-        public int Id { get => _Id; }
+        [Key]
+        public int Id { get; set; }
 
         private List<BaseShape> _Shapes = new List<BaseShape>();
         public List<BaseShape> Shapes { get => _Shapes; }
@@ -24,7 +24,11 @@ namespace ShapeAPI.Models.Shapes
         public ShapeGroup(string groupName = "Nouveau Groupe")
         {
             _GroupName = groupName;
-            _Id = ShapesService.GetNewID();
+        }
+
+        public ShapeGroup()
+        {
+            _GroupName = "";
         }
 
         #region Methods

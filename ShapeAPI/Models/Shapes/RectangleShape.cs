@@ -30,6 +30,8 @@ namespace ShapeAPI.Models.Shapes
             _ShapeType = ShapeType.Rectangle;
         }
 
+        public RectangleShape() : base() { }
+
         #region Methods
         public override double CalculateSurface()
         {
