@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
-namespace basicForms.Controllers
+namespace ShapeAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

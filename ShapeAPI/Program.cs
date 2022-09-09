@@ -13,6 +13,15 @@ builder.Services.AddSingleton<ShapesService>();
 
 #endregion
 
+#region Database
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString($"database"));
+    //options.EnableSensitiveDataLogging();
+});
+
+#endregion
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

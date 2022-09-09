@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace basicForms.Models.DTO
+namespace ShapeAPI.Models.DTO
 {
     public class CreateShape
     {
