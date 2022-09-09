@@ -1,5 +1,15 @@
 # Fichier d'environement
 ```
-TARGET=dev #dev, prod
+#BDD
+POSTGRES_PASSWORD=toor
+POSTGRES_USER=user
+POSTGRES_DB=Shapes
+
+#PORTS
 PORT_API=8080
+PORT_ADMINER=8082
+
+#ENV
+TARGET=dev
+
 ```
