@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +14,7 @@ namespace basicForms.Models.Shapes
         public int Id { get => _Id; }
 
         private List<BaseShape> _Shapes = new List<BaseShape>();
-        public List<BaseShape> Shapes { get => Shapes; }
+        public List<BaseShape> Shapes { get => _Shapes; }
 
         private string _GroupName = "Nouveau Groupe";
         public string GroupName { get => _GroupName; }
