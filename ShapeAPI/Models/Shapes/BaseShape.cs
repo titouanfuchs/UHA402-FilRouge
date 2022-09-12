@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace basicForms.Models.Shapes
+namespace ShapeAPI.Models.Shapes
 {
-    public abstract class BaseShape
+    public class BaseShape
     {
         #region Fields
-        protected string _Name = "Nouvelle forme";
-        public string Name { get => _Name; }
-        public string SetName { set => _Name = value; }
+        public string Name { get; set; }
 
-        protected int _Id;
-        public int Id { get => _Id; }
+        [Key] public int Id { get; set; }
 
         protected ShapeType _ShapeType;
         public ShapeType ShapeType { get => _ShapeType; }
@@ -23,20 +21,25 @@ namespace basicForms.Models.Shapes
         public double Perimeter { get => CalculatePerimeter(); }
         #endregion
 
+
         public BaseShape(string name)
         {
-            _Name = name;
-            _Id = ShapesService.GetNewID();
+            Name = name;
         }
 
-        #region
-        public abstract double CalculateSurface();
+        public BaseShape()
+        {
+            Name = "";
+        }
 
-        public abstract double CalculatePerimeter();
+        #region Methods
+        public virtual double CalculateSurface() { return 0; }
+
+        public virtual double CalculatePerimeter() { return 0; }
 
         public virtual void Display()
         {
-            Console.WriteLine($"Nom de la forme : {_Name}");
+            Console.WriteLine($"Nom de la forme : {Name}");
             Console.WriteLine($"Aire : {CalculateSurface()}");
             Console.WriteLine($"Périmètre : {CalculatePerimeter()}");
         }

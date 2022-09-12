@@ -3,7 +3,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Runtime.Serialization;
 
-namespace basicForms.Swagger
+namespace ShapeAPI.Swagger
 {
     public class EnumSchemaFilter: ISchemaFilter
     {

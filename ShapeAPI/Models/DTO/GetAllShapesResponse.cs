@@ -1,4 +1,4 @@
-﻿namespace basicForms.Models.DTO
+﻿namespace ShapeAPI.Models.DTO
 {
     public class GetAllShapesResponse : BaseResponse
     {

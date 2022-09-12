@@ -1,4 +1,7 @@
-﻿global using basicForms.Models.Shapes;
-global using basicForms.Services;
-global using basicForms.Models.DTO;
-global using basicForms.Swagger;
+﻿global using ShapeAPI.Models.Shapes;
+global using ShapeAPI.Services;
+global using ShapeAPI.Models.DTO;
+global using ShapeAPI.Data;
+
+global using Microsoft.EntityFrameworkCore;
+global using System.ComponentModel.DataAnnotations;

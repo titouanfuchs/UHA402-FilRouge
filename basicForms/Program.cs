@@ -1,6 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using basicForms.Models;
-using basicForms.Models.Shapes;
+using ShapeAPI.Models;
+using ShapeAPI.Models.Shapes;
 
 Console.WriteLine("Basic Shapes - UHA 4.0.2");
 

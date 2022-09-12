@@ -1,4 +1,4 @@
-﻿namespace basicForms.Models.Shapes
+﻿namespace ShapeAPI.Models.Shapes
 {
     public class Shape3D
     {

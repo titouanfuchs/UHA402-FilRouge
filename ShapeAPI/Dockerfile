@@ -9,7 +9,6 @@ EXPOSE 80
 COPY . /app
 
 RUN dotnet dev-certs https
-RUN dotnet tool install --global dotnet-ef
 RUN dotnet restore
 
 ENTRYPOINT ["dotnet",  "watch", "run", "--urls", "http://0.0.0.0:80"]
