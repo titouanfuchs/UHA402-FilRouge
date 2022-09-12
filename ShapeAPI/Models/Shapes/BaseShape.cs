@@ -10,9 +10,7 @@ namespace ShapeAPI.Models.Shapes
     public class BaseShape
     {
         #region Fields
-        protected string _Name = "Nouvelle forme";
-        public string Name { get => _Name; }
-        public string SetName { set => _Name = value; }
+        public string Name { get; set; }
 
         [Key] public int Id { get; set; }
 
@@ -26,12 +24,12 @@ namespace ShapeAPI.Models.Shapes
 
         public BaseShape(string name)
         {
-            _Name = name;
+            Name = name;
         }
 
         public BaseShape()
         {
-            _Name = "";
+            Name = "";
         }
 
         #region Methods
@@ -41,7 +39,7 @@ namespace ShapeAPI.Models.Shapes
 
         public virtual void Display()
         {
-            Console.WriteLine($"Nom de la forme : {_Name}");
+            Console.WriteLine($"Nom de la forme : {Name}");
             Console.WriteLine($"Aire : {CalculateSurface()}");
             Console.WriteLine($"Périmètre : {CalculatePerimeter()}");
         }

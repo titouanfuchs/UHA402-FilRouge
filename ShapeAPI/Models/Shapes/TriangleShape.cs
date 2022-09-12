@@ -10,27 +10,21 @@ namespace ShapeAPI.Models.Shapes
     {
         #region Fields
         //A
-        protected double _BaseLenght = 1;
-        public double BaseLenght { get => _BaseLenght; }
-        public double SetBaseLenght { set => _BaseLenght = value; }
+        public double BaseLenght { get; set; }
 
         //B
-        protected double _SideOne = 1;
-        public double SideOne { get => _SideOne; }
-        public double SetSideOne { set => _SideOne = value; }
+        public double SideOne { get; set; }
 
         //C
-        protected double _SideTwo = 1;
-        public double SideTwo { get => _SideTwo; }
-        public double SetSideTwo { set => _SideTwo = value; }
+        public double SideTwo { get; set; }
 
         #endregion
 
         public TriangleShape(string name, double baseLenght, double sideOne, double sideTwo) : base(name)
         {
-            _BaseLenght = baseLenght < 0 ? -baseLenght : baseLenght;
-            _SideOne = sideOne < 0 ? -sideOne : sideOne;
-            _SideTwo = sideTwo <0 ? -sideTwo : sideTwo;
+            BaseLenght = baseLenght < 0 ? -baseLenght : baseLenght;
+            SideOne = sideOne < 0 ? -sideOne : sideOne;
+            SideTwo = sideTwo <0 ? -sideTwo : sideTwo;
             _ShapeType = ShapeType.Triangle;
         }
 
@@ -43,19 +37,19 @@ namespace ShapeAPI.Models.Shapes
 
             double p = CalculatePerimeter() / (double)2;
 
-            return Math.Sqrt(p*(p-_BaseLenght)*(p-_SideOne)*(p-_SideTwo));
+            return Math.Sqrt(p*(p-BaseLenght)*(p-SideOne)*(p-SideTwo));
         }
 
         public override double CalculatePerimeter()
         {
-            return _BaseLenght + _SideOne + _SideTwo;
+            return BaseLenght + SideOne + SideTwo;
         }
 
         public bool TriangleExist()
         {
-            if (_BaseLenght + _SideOne <= _SideTwo) return false;
-            if (_BaseLenght + _SideTwo <= _SideOne) return false;
-            if (_SideOne + _SideTwo <= _BaseLenght) return false;
+            if (BaseLenght + SideOne <= SideTwo) return false;
+            if (BaseLenght + SideTwo <= SideOne) return false;
+            if (SideOne + SideTwo <= BaseLenght) return false;
 
             return true;
         }
@@ -68,6 +62,7 @@ namespace ShapeAPI.Models.Shapes
 
             if (TriangleExist())
                 base.Display();
+        
         }
 
         #endregion

@@ -76,7 +76,7 @@ namespace ShapeAPI.Controllers
         ///     1: Circle
         ///     2: Triangle
         /// </param>
-        [HttpPost("Shape")]
+        [HttpPost("")]
         public ActionResult<BaseShape> CreateShape([FromQuery] ShapeType shapeType,[FromBody][Required] CreateShape createQuery)
         {
             try
@@ -99,6 +99,40 @@ namespace ShapeAPI.Controllers
         public ActionResult<ShapeGroup> CreateGroup([FromQuery][Required] string groupName)
         {
             return Ok(_ShapesService.CreateGroup(groupName));
+        }
+
+        /// <summary>
+        /// Retourne tous les groupes
+        /// </summary>
+        [HttpGet("Group")]
+        public ActionResult<List<ShapeGroup>> GetGroups()
+        {
+            try
+            {
+                return _ShapesService.GetGroups();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"Error: {e.Message}");
+            }
+
+        }
+
+        /// <summary>
+        /// Retourne un seul groupe de formes
+        /// </summary>
+        /// <param name="id">Identifiant du groupe de formes</param>
+        [HttpGet("Group/{id}")]
+        public ActionResult<ShapeGroup> GetGroup(int id)
+        {
+            try
+            {
+                return _ShapesService.GetGroup(id);
+            }catch(Exception e)
+            {
+                return StatusCode(500, $"Error: {e.Message}");
+            }
+
         }
 
         /// <summary>

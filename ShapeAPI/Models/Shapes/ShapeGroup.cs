@@ -12,35 +12,30 @@ namespace ShapeAPI.Models.Shapes
 
         [Key]
         public int Id { get; set; }
-
-        private List<BaseShape> _Shapes = new List<BaseShape>();
-        public List<BaseShape> Shapes { get => _Shapes; }
-
-        private string _GroupName = "Nouveau Groupe";
-        public string GroupName { get => _GroupName; }
-        public string SetGroupName { set => _GroupName = value; }
+        public List<BaseShape> Shapes { get; set; }
+        public string GroupName { get; set; }
         #endregion
 
         public ShapeGroup(string groupName = "Nouveau Groupe")
         {
-            _GroupName = groupName;
+            GroupName = groupName;
         }
 
         public ShapeGroup()
         {
-            _GroupName = "";
+            GroupName = "";
         }
 
         #region Methods
         public void AddShape(BaseShape shape)
         {
-            _Shapes.Add(shape);
+            Shapes.Add(shape);
         }
 
         public double CalculateTotalPerimeter()
         {
             double total = 0;
-            _Shapes.ForEach(s => total += s.CalculatePerimeter());
+            Shapes.ForEach(s => total += s.CalculatePerimeter());
 
             return total;
         }
@@ -48,7 +43,7 @@ namespace ShapeAPI.Models.Shapes
         public double CalculateTotalSurface()
         {
             double total = 0;
-            _Shapes.ForEach(s => total += s.CalculateSurface());
+            Shapes.ForEach(s => total += s.CalculateSurface());
 
             return total;
         }
@@ -57,7 +52,7 @@ namespace ShapeAPI.Models.Shapes
         {
             int total = 0;
 
-            foreach(BaseShape shape in _Shapes)
+            foreach(BaseShape shape in Shapes)
             {
                 if (shape.GetType() == typeof(TriangleShape))
                 {
@@ -76,11 +71,11 @@ namespace ShapeAPI.Models.Shapes
 
         public void Display()
         {
-            Console.WriteLine($"Nombre de formes : {_Shapes.Count}");
-            Console.WriteLine($"Nombre de Triangles : {_Shapes.Count(s => s.GetType() == typeof(TriangleShape))}");
+            Console.WriteLine($"Nombre de formes : {Shapes.Count}");
+            Console.WriteLine($"Nombre de Triangles : {Shapes.Count(s => s.GetType() == typeof(TriangleShape))}");
             Console.WriteLine($"Nombre de Triangles qui éxistent : {CountExistingTriangles()}");
-            Console.WriteLine($"Nombre de Cercles : {_Shapes.Count(s => s.GetType() == typeof(CircleShape))}");
-            Console.WriteLine($"Nombre de Rectangle : {_Shapes.Count(s => s.GetType() == typeof(RectangleShape))}");
+            Console.WriteLine($"Nombre de Cercles : {Shapes.Count(s => s.GetType() == typeof(CircleShape))}");
+            Console.WriteLine($"Nombre de Rectangle : {Shapes.Count(s => s.GetType() == typeof(RectangleShape))}");
 
             Console.WriteLine("");
             Console.WriteLine($"Périmètre total des formes : {CalculateTotalPerimeter()}");

@@ -12,7 +12,7 @@ using ShapeAPI.Data;
 namespace ShapeAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220909092914_PRO402-8")]
+    [Migration("20220912113216_PRO402-8")]
     partial class PRO4028
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,14 @@ namespace ShapeAPI.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int?>("ShapeGroupId")
                         .HasColumnType("integer");
 
@@ -39,7 +47,9 @@ namespace ShapeAPI.Migrations
 
                     b.HasIndex("ShapeGroupId");
 
-                    b.ToTable("Shapes");
+                    b.ToTable("BaseShape");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("BaseShape");
                 });
 
             modelBuilder.Entity("ShapeAPI.Models.Shapes.ShapeGroup", b =>
@@ -50,9 +60,52 @@ namespace ShapeAPI.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("GroupName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("ShapesGroups");
+                });
+
+            modelBuilder.Entity("ShapeAPI.Models.Shapes.CircleShape", b =>
+                {
+                    b.HasBaseType("ShapeAPI.Models.Shapes.BaseShape");
+
+                    b.Property<double>("Diameter")
+                        .HasColumnType("double precision");
+
+                    b.HasDiscriminator().HasValue("CircleShape");
+                });
+
+            modelBuilder.Entity("ShapeAPI.Models.Shapes.RectangleShape", b =>
+                {
+                    b.HasBaseType("ShapeAPI.Models.Shapes.BaseShape");
+
+                    b.Property<double>("Lenght")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Width")
+                        .HasColumnType("double precision");
+
+                    b.HasDiscriminator().HasValue("RectangleShape");
+                });
+
+            modelBuilder.Entity("ShapeAPI.Models.Shapes.TriangleShape", b =>
+                {
+                    b.HasBaseType("ShapeAPI.Models.Shapes.BaseShape");
+
+                    b.Property<double>("BaseLenght")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("SideOne")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("SideTwo")
+                        .HasColumnType("double precision");
+
+                    b.HasDiscriminator().HasValue("TriangleShape");
                 });
 
             modelBuilder.Entity("ShapeAPI.Models.Shapes.BaseShape", b =>
