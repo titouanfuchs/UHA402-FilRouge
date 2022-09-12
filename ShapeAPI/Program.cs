@@ -54,6 +54,8 @@ using (var scope = app.Services.CreateScope())
     
     await dataContext.Database.MigrateAsync();
 
+
+    //Modification de l'état initial de l'application
     if (dataContext.ShapesGroups.Count() == 0)
     {
         var group = shapeService.CreateGroup("Default Group");
