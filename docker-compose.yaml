@@ -20,7 +20,23 @@ services:
             - shape-bdd
         networks:
             - intern
-            
+           
+    shape-front:
+        container_name: "ShapeFront"
+        build:
+            dockerfile: Dockerfile
+            context: shape-front
+            target: ${TARGET}
+        env_file:
+            - ./.env
+        restart: on-failure
+        volumes:
+            - ./shape-front:/app
+        ports:
+            - ${PORT_FRONT}:3000
+        depends_on:
+            - shape-api
+    
     shape-bdd:
         container_name: "ShapeBDD"
         image: postgres
