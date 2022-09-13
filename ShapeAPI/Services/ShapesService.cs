@@ -45,6 +45,17 @@ namespace ShapeAPI.Services
             return shapeGroups[0];
         }
 
+        public void DeleteShapeGroup(int id)
+        {
+            ShapeGroup? shape = _Context.Find<ShapeGroup>(id);
+
+            if (shape is null)
+                throw new ArgumentException($"ShapeGroup with ID {id} not found.");
+
+            _Context.Remove<ShapeGroup>(shape);
+            _Context.SaveChanges();
+        }
+
         public void AddShapeToGroup(int groupID, int shapeID)
         {
             BaseShape shape = GetShape(shapeID);

@@ -102,6 +102,24 @@ namespace ShapeAPI.Controllers
         }
 
         /// <summary>
+        /// Permet la suppression d'un groupe de formes par son ID.
+        /// </summary>
+        /// <param name="id">Identifiant du groupe</param>
+        [HttpDelete("Group/{id}")]
+        public ActionResult<BaseShape> DeleteGroup(int id)
+        {
+            try
+            {
+                _ShapesService.DeleteShapeGroup(id);
+                return StatusCode(200, new BaseResponse("Groupe supprimée avec succès"));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(501, new BaseResponse($"Error : {e.Message}"));
+            }
+        }
+
+        /// <summary>
         /// Retourne tous les groupes
         /// </summary>
         [HttpGet("Group")]
