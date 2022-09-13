@@ -12,9 +12,11 @@ const ShapeGroupComponent = ({ shapeGroup }: ShapeGroupC) => {
 
     const { mutate } = useSWRConfig();
 
-    const deleteGroup = () => {
-        fetch(`/shapeAPI/api/Shape/Group/${shapeGroup.id}`, { method: 'DELETE' });
-        mutate('/shapeAPI/api/Shape/Group');
+    const deleteGroup = async () => {
+        console.log("Start Delete");
+        await fetch(`/shapeAPI/api/Shape/Group/${shapeGroup.id}`, { method: 'DELETE' });
+        await mutate('/shapeAPI/api/Shape/Group');
+        console.log("End Delete");
     }
 
     const editGroup = () => {

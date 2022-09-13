@@ -4,7 +4,7 @@ const nextConfig = {
     swcMinify: true,
     webpack: config => {
         config.watchOptions = {
-            poll: 800,
+            poll: 1000,
             aggregateTimeout: 300,
         };
         return config;

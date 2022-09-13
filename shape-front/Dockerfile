@@ -11,5 +11,6 @@ RUN yarn install --frozen-lockfile
 COPY . /app
 
 EXPOSE 3000
+EXPOSE 808
 
 CMD yarn dev

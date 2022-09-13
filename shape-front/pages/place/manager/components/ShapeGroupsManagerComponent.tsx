@@ -7,7 +7,7 @@ const fetcher = (...args: any[]) => fetch(...args).then(res => res.json())
 
 const ShapeGroupsManagerComponent: FC = () => {
 
-    const { data, error, mutate } = useSWR<ShapeGroup[], string>('/shapeAPI/api/Shape/Group', fetcher);
+    const { data, error } = useSWR<ShapeGroup[], string>('/shapeAPI/api/Shape/Group', fetcher);
 
     if (error) return <div>Failed to load</div>;
     if (!data) return <div>Loading...</div>
@@ -17,8 +17,8 @@ const ShapeGroupsManagerComponent: FC = () => {
             ShapeGroups
         </div>
         <div className="w-full flex flex-wrap min-h-[20rem] p-2">
-            {data.map((group: ShapeGroup) =>
-                <ShapeGroupComponent shapeGroup={group}></ShapeGroupComponent>
+            {data.map((group: ShapeGroup, index: number) =>
+                <ShapeGroupComponent key={index} shapeGroup={group}></ShapeGroupComponent>
             )}
         </div>
     </div>;

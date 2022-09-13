@@ -30,8 +30,11 @@ services:
         restart: on-failure
         volumes:
             - ./shape-front:/app
+            - shape-front-next:/app/.next
+            - shape-front-modules:/app/node_modules
         ports:
             - ${PORT_FRONT}:3000
+            - 808:808
         depends_on:
             - shape-api
         networks:
@@ -59,6 +62,8 @@ services:
             - intern
 volumes:
     shape-bdd:
+    shape-front-next:
+    shape-front-modules:
     
 networks:
     intern:
