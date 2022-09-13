@@ -9,3 +9,8 @@ PORT_FRONT=8080
 
 TARGET=dev
 ```
+
+#Accès à l'API
+
+L'accès à l'API se fais via l'URL suivante :
+http://localhost:[PORT_FRONT]/shapeAPI/
