@@ -22,7 +22,7 @@ const ShapeGroupComponent = ({ shapeGroup }: ShapeGroupC) => {
     return (
         <div>
             <ShapeGroupEditor isOpen={editOpen} shapeGroup={shapeGroup} closeEvent={() => setEditOpen(false)}></ShapeGroupEditor>
-            <div className="border h-[10rem] w-[25rem] rounded-lg flex flex-col shadow-lg">
+            <div className="border h-[10rem] w-[25rem] rounded-lg flex flex-col shadow-lg mb-5">
                 <div className="border-b p-2 flex justify-between">
                     <div>
                         {shapeGroup.id} - {shapeGroup.groupName}

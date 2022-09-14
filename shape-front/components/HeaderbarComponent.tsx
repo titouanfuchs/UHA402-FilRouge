@@ -15,13 +15,6 @@ const Headerbar = ({ Title }: headerBar) => {
             </div>
 
             <div className="flex h-full flex-col justify-center">
-                <Popover className="relative">
-                    <Popover.Button>Options</Popover.Button>
-
-                    <Popover.Panel className="absolute bg-white shadow-lg border p-5 z-10 w-fit h-fit flex flex-col space-y-4">
-                        <button>Créer</button>
-                    </Popover.Panel>
-                </Popover>
             </div>
         </div>
     </>;

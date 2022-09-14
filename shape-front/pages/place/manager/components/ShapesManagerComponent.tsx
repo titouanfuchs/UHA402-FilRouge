@@ -1,24 +1,23 @@
 ﻿import { Popover } from "@headlessui/react";
-import { FC, useState } from "react";
-import useSWR, { useSWRConfig } from "swr";
-import { ShapeGroup } from "../../../../interfaces/ShapeGroup";
-import ShapeGroupComponent from "./ShapeGroupComponent";
-import ShapeGroupEditor from "./ShapeGroupEditorComponent";
+import { useState } from "react";
+import useSWR from "swr";
+import { BaseShape } from "../../../../interfaces/BaseShape";
+import { ShapeDTO } from "../../../../interfaces/ShapeGroupDTO";
+import ShapeComponent from "./ShapeComponent";
 
 const fetcher = (...args: any[]) => fetch(...args).then(res => res.json())
 
-const ShapeGroupsManagerComponent: FC = () => {
-
+const ShapeManagerComponent = () => {
     let [editOpen, setEditOpen] = useState(false);
-    const { data, error } = useSWR<ShapeGroup[], string>('/shapeAPI/api/Shape/Group', fetcher);
+    const { data, error } = useSWR<ShapeDTO, string>('/shapeAPI/api/Shape', fetcher);
 
     if (error) return <div>Failed to load</div>;
-    if (!data) return <div>Loading...</div>
+    if (!data) return <div>Loading...</div>;
 
     return <div className="rounded-lg overflow-hidden border border-green-500 shadow-lg">
         <div className="flex justify-between border-b border-green-300 w-full p-2">
             <div className="">
-                ShapeGroups
+                Shapes
             </div>
             <div className="flex h-full flex-col justify-center">
                 <Popover className="relative">
@@ -32,13 +31,11 @@ const ShapeGroupsManagerComponent: FC = () => {
         </div>
 
         <div className="w-full flex flex-wrap min-h-[20rem] p-2 space-x-5">
-            <ShapeGroupEditor isOpen={editOpen} closeEvent={() => setEditOpen(false)}></ShapeGroupEditor>
-
-            {data.map((group: ShapeGroup, index: number) =>
-                <ShapeGroupComponent key={index} shapeGroup={group}></ShapeGroupComponent>
+            {data.shapes.map((shape: BaseShape, index: number) =>
+                <ShapeComponent shape={shape}></ShapeComponent>
             )}
         </div>
     </div>;
 };
 
-export default ShapeGroupsManagerComponent;
+export default ShapeManagerComponent;
