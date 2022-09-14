@@ -96,9 +96,19 @@ namespace ShapeAPI.Controllers
         /// </summary>
         /// <param name="groupName">Nom du groupe</param>
         [HttpPost("Group")]
-        public ActionResult<ShapeGroup> CreateGroup([FromQuery][Required] string groupName)
+        public ActionResult<ShapeGroup> CreateGroup([FromBody][Required] ShapeGroupDTO query)
         {
-            return Ok(_ShapesService.CreateGroup(groupName));
+            return Ok(_ShapesService.CreateGroup(query.GroupName));
+        }
+
+        /// <summary>
+        /// Permet la modification des groupes
+        /// </summary>
+        /// <param name="id">ID du groupe</param>
+        [HttpPatch("Group/{id}")]
+        public ActionResult<ShapeGroup> CreateGroup(int id, [FromBody] ShapeGroupDTO query)
+        {
+            return Ok(_ShapesService.EditGroup(query, id));
         }
 
         /// <summary>

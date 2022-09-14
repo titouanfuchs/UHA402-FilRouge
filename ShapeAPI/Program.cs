@@ -1,5 +1,4 @@
 using back.Swagger;
-using Microsoft.Extensions.Options;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);

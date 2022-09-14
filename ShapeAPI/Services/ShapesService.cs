@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Rewrite;
+using ShapeAPI.Models.DTO;
 using System.Text.RegularExpressions;
 
 namespace ShapeAPI.Services
@@ -19,6 +20,17 @@ namespace ShapeAPI.Services
             ShapeGroup group = new ShapeGroup(groupName);
 
             _Context.ShapesGroups.Add(group);
+
+            _Context.SaveChanges();
+
+            return group;
+        }
+
+        public ShapeGroup EditGroup(ShapeGroupDTO query, int id)
+        {
+            ShapeGroup group = GetGroup(id);
+
+            group.GroupName = query.GroupName;
 
             _Context.SaveChanges();
 
