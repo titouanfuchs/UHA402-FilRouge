@@ -4,17 +4,31 @@ import useSWR from "swr";
 import { BaseShape } from "../../../../interfaces/BaseShape";
 import { ShapeDTO } from "../../../../interfaces/ShapeGroupDTO";
 import ShapeComponent from "./ShapeComponent";
+import ShapeEditor from "./ShapeEditorComponent";
 
 const fetcher = (...args: any[]) => fetch(...args).then(res => res.json())
 
 const ShapeManagerComponent = () => {
     let [editOpen, setEditOpen] = useState(false);
-    const { data, error } = useSWR<ShapeDTO, string>('/shapeAPI/api/Shape', fetcher);
+    const { data, error } = useSWR<BaseShape[], string>(`/shapeAPI/api/Shape`, fetcher);
+
+    const [selectedID, setSelectedID] = useState(0);
 
     if (error) return <div>Failed to load</div>;
     if (!data) return <div>Loading...</div>;
 
+    const openEditWithShape = (id: number) => {
+        setSelectedID(id);
+        setEditOpen(true);
+    }
+
+    const openEdit = () => {
+        setSelectedID(0);
+        setEditOpen(true);
+    }
+
     return <div className="rounded-lg overflow-hidden border border-green-500 shadow-lg">
+
         <div className="flex justify-between border-b border-green-300 w-full p-2">
             <div className="">
                 Shapes
@@ -31,8 +45,9 @@ const ShapeManagerComponent = () => {
         </div>
 
         <div className="w-full flex flex-wrap min-h-[20rem] p-2 space-x-5">
-            {data.shapes.map((shape: BaseShape, index: number) =>
-                <ShapeComponent shape={shape}></ShapeComponent>
+            <ShapeEditor shapeID={selectedID} isOpen={editOpen} closeEvent={() => setEditOpen(false)} ></ShapeEditor>
+            {data.map((shape: BaseShape, index: number) =>
+                <ShapeComponent openEditEvent={(id: number) => openEditWithShape(id)} key={index} shape={shape}></ShapeComponent>
             )}
         </div>
     </div>;

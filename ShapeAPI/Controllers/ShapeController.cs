@@ -18,7 +18,7 @@ namespace ShapeAPI.Controllers
         /// Retourne toutes les formes de tous les groupes
         /// </summary>
         [HttpGet()]
-        public ActionResult<GetAllShapesResponse> GetAll()
+        public ActionResult<List<BaseShape>> GetAll()
         {
             return Ok(_ShapesService.GetAll());
         }

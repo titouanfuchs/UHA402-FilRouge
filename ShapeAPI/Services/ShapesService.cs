@@ -82,7 +82,7 @@ namespace ShapeAPI.Services
 
         #region Shapes
 
-        public GetAllShapesResponse GetAll()
+        public List<BaseShape> GetAll()
         {
             List<BaseShape> result = new List<BaseShape>();
 
@@ -90,7 +90,7 @@ namespace ShapeAPI.Services
             result.AddRange(_Context.TriangleShapes.ToList());
             result.AddRange(_Context.CircleShapes.ToList());
 
-            return new GetAllShapesResponse("Success", result);
+            return result;
         }
 
         public BaseShape GetShape(int id)
