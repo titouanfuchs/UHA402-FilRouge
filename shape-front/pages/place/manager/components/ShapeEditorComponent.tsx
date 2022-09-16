@@ -1,5 +1,5 @@
 ﻿import { Dialog, Listbox } from "@headlessui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { isReadable } from "stream";
 import { mutate } from "swr";
 import { BaseShape } from "../../../../interfaces/BaseShape";
@@ -36,53 +36,62 @@ const ShapeEditor = ({ shapeID, isOpen, closeEvent }: ShapeT) => {
         sideTwo: 0
     });
 
-    const [ready, setReady] = useState(false);
     const [fetched, setFetched] = useState(false);
 
-    if (isOpen && shapeID > 0 && !fetched) {
-        setFetched(true);
+    useEffect(() => {
+        if (shapeID > 0 && isOpen) {
+            fetch(`/shapeAPI/api/Shape/${shapeID}`).then((res) => res.json()).then((data: BaseShape) => {
 
-        fetch(`/shapeAPI/api/Shape/${shapeID}`).then((res) => res.json()).then((data: BaseShape) => {
-            console.log(data);
-            let newShape = shape;
-            newShape.name = data.name;
+                let newShape = shape;
+                newShape.name = data.name;
 
-            let type = shapes.map(s => s.type).find(data.shapeType);
+                let type = shapes.find((s) => { return s.type === data.type; });
 
-            setSelected(type || 0)
+                setSelected(type || shapes[0]);
 
-            switch (data.shapeType) {
-                case 0:
-                    let rect = data as RectangleShape;
+                switch (data.type) {
+                    case 0:
+                        let rect = data as RectangleShape;
 
-                    newShape.lenght = rect.lenght;
-                    newShape.width = rect.width;
+                        newShape.lenght = rect.lenght;
+                        newShape.width = rect.width;
 
-                    break;
+                        break;
 
-                case 1:
-                    let circ = data as CircleShape;
+                    case 1:
+                        let circ = data as CircleShape;
 
-                    newShape.diameter = circ.diameter;
-                    break;
+                        newShape.diameter = circ.diameter;
 
-                case 2:
-                    let tri = data as TriangleShape;
+                        break;
 
-                    newShape.base = tri.baseLenght;
-                    newShape.sideOne = tri.sideOne;
-                    newShape.sideTwo = tri.sideTwo;
+                    case 2:
+                        let tri = data as TriangleShape;
 
-                    break;
-            }
+                        newShape.base = tri.baseLenght;
+                        newShape.sideOne = tri.sideOne;
+                        newShape.sideTwo = tri.sideTwo;
+                        break;
+                }
 
-            setShape(newShape);
-            setReady(true);
-        });
-    }
+                setShape(newShape);
+
+                setTimeout(function () {
+                    setFetched(true);
+                }, 200);
+            });
+        } else if (isOpen) {
+            setFetched(true);
+        }
+    }, [shapeID]);
 
     const updateShape = async () => {
+        console.log("Update Shape");
 
+        await fetch(`/shapeAPI/api/Shape/${shapeID}`, { method: 'PATCH', body: JSON.stringify(shape), headers: { 'Content-Type': 'application/json' } });
+        await mutate('/shapeAPI/api/Shape');
+
+        close();
     }
 
     const createShape = async () => {
@@ -92,10 +101,42 @@ const ShapeEditor = ({ shapeID, isOpen, closeEvent }: ShapeT) => {
         closeEvent();
     }
 
-    return <Dialog open={isOpen} onClose={() => closeEvent()} className="relative z-50">
+    const close = () => {
+        setFetched(false);
+        setSelected(shapes[0]);
+
+        setShape({
+            name: "Nouvelle Forme",
+            lenght: 0,
+            width: 0,
+            diameter: 0,
+            base: 0,
+            sideOne: 0,
+            sideTwo: 0
+        });
+
+        closeEvent();
+    }
+
+    if (!fetched) {
+        return (
+            <Dialog open={isOpen} onClose={() => close()} className="relative z-50">
+                <div className="fixed inset-0 flex items-center justify-center p-4">
+                    <Dialog.Panel className="w-full max-w-sm rounded-lg bg-white border shadow-lg p-5">
+                        <Dialog.Title className="text-2xl">Shape Editor</Dialog.Title>
+                        <Dialog.Description>
+                            En cours de chargement ...
+                        </Dialog.Description>
+                    </Dialog.Panel>
+                </div>
+            </Dialog>
+        );
+    }
+
+    return <Dialog open={isOpen} onClose={() => close()} className="relative z-50">
         <div className="fixed inset-0 flex items-center justify-center p-4">
             <Dialog.Panel className="w-full max-w-sm rounded-lg bg-white border shadow-lg p-5">
-                <Dialog.Title className="text-2xl">ShapeGroup Editor</Dialog.Title>
+                <Dialog.Title className="text-2xl">Shape Editor</Dialog.Title>
                 <Dialog.Description>
                     Dialogue d'édition de formes
                 </Dialog.Description>
@@ -155,7 +196,7 @@ const ShapeEditor = ({ shapeID, isOpen, closeEvent }: ShapeT) => {
 
                 <div className="flex space-x-5 justify-end">
                     <button onClick={() => shapeID > 0 ? updateShape() : createShape()}>Valider</button>
-                    <button onClick={() => closeEvent()} className="text-red-500">Cancel</button>
+                    <button onClick={() => close()} className="text-red-500">Cancel</button>
                 </div>
 
             </Dialog.Panel>

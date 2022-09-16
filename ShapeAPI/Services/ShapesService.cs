@@ -127,6 +127,8 @@ namespace ShapeAPI.Services
             if (shape is null)
                 throw new ArgumentException($"Shape with ID {id} not found.");
 
+            shape.Name = editQuery.Name;
+
             Type type = shape.GetType();
 
             if (type == typeof(RectangleShape) )

@@ -25,7 +25,7 @@ namespace ShapeAPI.Models.Shapes
             BaseLenght = baseLenght < 0 ? -baseLenght : baseLenght;
             SideOne = sideOne < 0 ? -sideOne : sideOne;
             SideTwo = sideTwo <0 ? -sideTwo : sideTwo;
-            _ShapeType = ShapeType.Triangle;
+            Type = ShapeType.Triangle;
         }
 
         #region Methods

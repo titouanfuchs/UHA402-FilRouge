@@ -1,7 +1,7 @@
 ﻿export interface BaseShape {
     name: string,
     id: number,
-    shapeType: number,
+    type: number,
     surface: number,
     perimeter: number
 }

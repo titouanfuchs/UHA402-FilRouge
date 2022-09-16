@@ -27,6 +27,11 @@ const ShapeManagerComponent = () => {
         setEditOpen(true);
     }
 
+    const closeEdit = () => {
+        setSelectedID(0);
+        setEditOpen(false);
+    }
+
     return <div className="rounded-lg overflow-hidden border border-green-500 shadow-lg">
 
         <div className="flex justify-between border-b border-green-300 w-full p-2">
@@ -38,14 +43,14 @@ const ShapeManagerComponent = () => {
                     <Popover.Button>Options</Popover.Button>
 
                     <Popover.Panel className="absolute bg-white shadow-lg border p-5 z-10 w-fit h-fit flex flex-col space-y-4">
-                        <button onClick={() => setEditOpen(true)}>Créer</button>
+                        <button onClick={() => openEdit()}>Créer</button>
                     </Popover.Panel>
                 </Popover>
             </div>
         </div>
 
         <div className="w-full flex flex-wrap min-h-[20rem] p-2 space-x-5">
-            <ShapeEditor shapeID={selectedID} isOpen={editOpen} closeEvent={() => setEditOpen(false)} ></ShapeEditor>
+            <ShapeEditor shapeID={selectedID} isOpen={editOpen} closeEvent={() => closeEdit()} ></ShapeEditor>
             {data.map((shape: BaseShape, index: number) =>
                 <ShapeComponent openEditEvent={(id: number) => openEditWithShape(id)} key={index} shape={shape}></ShapeComponent>
             )}

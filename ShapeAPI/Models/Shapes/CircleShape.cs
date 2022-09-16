@@ -15,7 +15,7 @@ namespace ShapeAPI.Models.Shapes
         public CircleShape(string name, double diameter) : base(name)
         {
             Diameter = diameter;
-            _ShapeType = ShapeType.Circle;
+            Type = ShapeType.Circle;
         }
         public CircleShape()
         {
