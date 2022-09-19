@@ -1,6 +1,5 @@
-﻿import { Dialog, Listbox } from "@headlessui/react";
+﻿import { Button, Input, Select, Option, DialogHeader, DialogBody, DialogFooter, Dialog } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
-import { isReadable } from "stream";
 import { mutate } from "swr";
 import { BaseShape } from "../../../../interfaces/BaseShape";
 import { CircleShape } from "../../../../interfaces/CircleShape";
@@ -24,7 +23,7 @@ const ShapeEditor = ({ shapeID, isOpen, closeEvent }: ShapeT) => {
         { name: 'Triangle', type: 2 },
     ]
 
-    const [selected, setSelected] = useState(shapes[0])
+    const [selected, setSelected] = useState(shapes[0].name)
 
     const [shape, setShape] = useState({
         name: "Nouvelle Forme",
@@ -45,9 +44,9 @@ const ShapeEditor = ({ shapeID, isOpen, closeEvent }: ShapeT) => {
                 let newShape = shape;
                 newShape.name = data.name;
 
-                let type = shapes.find((s) => { return s.type === data.type; });
+                let foundType = shapes.find((s) => { return s.type === data.type; });
 
-                setSelected(type || shapes[0]);
+                setSelected(foundType ? foundType!.name : shapes[0].name);
 
                 switch (data.type) {
                     case 0:
@@ -103,7 +102,7 @@ const ShapeEditor = ({ shapeID, isOpen, closeEvent }: ShapeT) => {
 
     const close = () => {
         setFetched(false);
-        setSelected(shapes[0]);
+        setSelected(shapes[0].name);
 
         setShape({
             name: "Nouvelle Forme",
@@ -120,87 +119,116 @@ const ShapeEditor = ({ shapeID, isOpen, closeEvent }: ShapeT) => {
 
     if (!fetched) {
         return (
-            <Dialog open={isOpen} onClose={() => close()} className="relative z-50">
-                <div className="fixed inset-0 flex items-center justify-center p-4">
-                    <Dialog.Panel className="w-full max-w-sm rounded-lg bg-white border shadow-lg p-5">
-                        <Dialog.Title className="text-2xl">Shape Editor</Dialog.Title>
-                        <Dialog.Description>
-                            En cours de chargement ...
-                        </Dialog.Description>
-                    </Dialog.Panel>
-                </div>
+            <Dialog open={isOpen} handler={() => close}>
+                <DialogHeader>Shape Editor</DialogHeader>
+                <DialogBody divider>
+                    Chargement de la forme...
+                </DialogBody>
             </Dialog>
         );
     }
 
-    return <Dialog open={isOpen} onClose={() => close()} className="relative z-50">
-        <div className="fixed inset-0 flex items-center justify-center p-4">
-            <Dialog.Panel className="w-full max-w-sm rounded-lg bg-white border shadow-lg p-5">
-                <Dialog.Title className="text-2xl">Shape Editor</Dialog.Title>
-                <Dialog.Description>
-                    Dialogue d'édition de formes
-                </Dialog.Description>
+    return <Dialog open={isOpen} handler={() => close}>
+        <DialogHeader>Shape Editor</DialogHeader>
+        <DialogBody divider>
+            <div className="flex flex-col space-y-5 p-2">
+                <div>
+                    <Input
+                        label="Shape Name"
+                        type="text"
+                        name="ShapeName"
+                        id="shapeNameInput"
+                        placeholder="Nom de la forme..."
+                        defaultValue={shape.name}
+                        onChange={(e) => shape.name = e.target.value}
+                    />
+                </div>
 
-                <div className="flex flex-col space-y-5 p-2">
-                    <div>
-                        <input
-                            type="text"
-                            name="ShapeName"
+                <Select disabled={shapeID != 0} value={selected} onChange={() => setSelected} label="Shape Type">
+                    {shapes.map((sh) => (
+                        <Option key={sh.type} value={`${sh.name}`}>{sh.name}</Option>
+                    ))}
+                </Select>
+
+                {selected == "Rectangle" && (
+                    <div className="full flex space-x-5">
+                        <Input
+                            label="Longueur"
+                            type="number"
+                            name="RectLenght"
+                            id="RectLenght"
+                            placeholder="Longueur"
+                            defaultValue={shape.lenght}
+                            onChange={(e) => shape.lenght = Number.parseFloat(e.target.value)}
+                        />
+
+                        <Input
+                            label="Largeur"
+                            type="number"
+                            name="RectWidth"
                             id="shapeNameInput"
-                            className="block w-full rounded-md border-gray-300 pl-7  focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Nom de la forme..."
-                            defaultValue={shape.name}
-                            onChange={(e) => shape.name = e.target.value}
+                            placeholder="Largeur"
+                            defaultValue={shape.width}
+                            onChange={(e) => shape.width = Number.parseFloat(e.target.value)}
                         />
                     </div>
+                )}
 
-                    <Listbox value={selected} onChange={setSelected}>
-                        <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">{selected.name}</Listbox.Button>
-                        <Listbox.Options className="p-2 absolute mt-1 max-h-60 min-w-[15rem] overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                            {shapes.map((sh) => (
-                                <Listbox.Option
-                                    key={sh.type}
-                                    value={sh}
-                                >
-                                    {sh.name}
-                                </Listbox.Option>
-                            ))}
-                        </Listbox.Options>
-                    </Listbox>
+                {selected == "Cercle" && (
+                    <div className="full flex space-x-5">
+                        <Input
+                            label="Diamètre"
+                            type="number"
+                            name="CircDia"
+                            id="CircDia"
+                            placeholder="Diamètre"
+                            defaultValue={shape.diameter}
+                            onChange={(e) => shape.diameter = Number.parseFloat(e.target.value)}
+                        />
+                    </div>
+                )}
 
-                    {selected.type == 0 && (
-                        <div className="full flex space-x-5">
-                            <input
-                                type="number"
-                                name="RectLenght"
-                                id="shapeNameInput"
-                                className="block w-full rounded-md border-gray-300 pl-7  focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                placeholder="Longueur"
-                                defaultValue={shape.lenght}
-                                onChange={(e) => shape.lenght = Number.parseFloat(e.target.value)}
-                            />
+                {selected == "Triangle" && (
+                    <div className="full flex space-x-5">
+                        <Input
+                            type="number"
+                            name="TriBase"
+                            id="TriBase"
+                            label="Base"
+                            placeholder="Base"
+                            defaultValue={shape.base}
+                            onChange={(e) => shape.base = Number.parseFloat(e.target.value)}
+                        />
 
-                            <input
-                                type="number"
-                                name="RectWidth"
-                                id="shapeNameInput"
-                                className="block w-full rounded-md border-gray-300 pl-7  focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                placeholder="Largeur"
-                                defaultValue={shape.width}
-                                onChange={(e) => shape.width = Number.parseFloat(e.target.value)}
-                            />
-                        </div>
-                    )}
+                        <Input
+                            type="number"
+                            name="TriSideO"
+                            id="TriSideO"
+                            label="Côté 1"
+                            placeholder="Côté 1"
+                            defaultValue={shape.sideOne}
+                            onChange={(e) => shape.sideOne = Number.parseFloat(e.target.value)}
+                        />
 
-                </div>
+                        <Input
+                            type="number"
+                            name="TriSideT"
+                            id="TriSideT"
+                            label="Côté 2"
+                            placeholder="10"
+                            defaultValue={shape.sideTwo}
+                            onChange={(e) => shape.sideTwo = Number.parseFloat(e.target.value)}
+                        />
+                    </div>
+                )}
 
-                <div className="flex space-x-5 justify-end">
-                    <button onClick={() => shapeID > 0 ? updateShape() : createShape()}>Valider</button>
-                    <button onClick={() => close()} className="text-red-500">Cancel</button>
-                </div>
+            </div>
 
-            </Dialog.Panel>
-        </div>
+        </DialogBody>
+        <DialogFooter>
+            <Button variant="gradient" color="green" onClick={() => shapeID > 0 ? updateShape() : createShape()}>Valider</Button>
+            <Button variant="gradient" color="red" onClick={() => close()}>Cancel</Button>
+        </DialogFooter>
     </Dialog>;
 };
 
