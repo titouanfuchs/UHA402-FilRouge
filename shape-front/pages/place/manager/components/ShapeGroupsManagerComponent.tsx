@@ -1,4 +1,4 @@
-﻿import { Popover } from "@headlessui/react";
+﻿import { Button, Card, CardHeader, Menu, MenuHandler, MenuItem, MenuList, Typography } from "@material-tailwind/react";
 import { FC, useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
 import { ShapeGroup } from "../../../../interfaces/ShapeGroup";
@@ -15,21 +15,25 @@ const ShapeGroupsManagerComponent: FC = () => {
     if (error) return <div>Failed to load</div>;
     if (!data) return <div>Loading...</div>
 
-    return <div className="rounded-lg overflow-hidden border border-green-500 shadow-lg">
-        <div className="flex justify-between border-b border-green-300 w-full p-2">
-            <div className="">
+    return <Card className="border border-green-500">
+        <CardHeader
+            variant="gradient"
+            color="green"
+            className="mb-4 grid h-fit place-items-center p-2"
+        >
+            <Typography variant="h3" color="white">
                 ShapeGroups
-            </div>
-            <div className="flex h-full flex-col justify-center">
-                <Popover className="relative">
-                    <Popover.Button>Options</Popover.Button>
+            </Typography>
 
-                    <Popover.Panel className="absolute bg-white shadow-lg border p-5 z-10 w-fit h-fit flex flex-col space-y-4">
-                        <button onClick={() => setEditOpen(true)}>Créer</button>
-                    </Popover.Panel>
-                </Popover>
-            </div>
-        </div>
+            <Menu>
+                <MenuHandler>
+                    <Button variant="gradient">Options</Button>
+                </MenuHandler>
+                <MenuList>
+                    <MenuItem onClick={() => setEditOpen(true)}>Créer</MenuItem>
+                </MenuList>
+            </Menu>
+        </CardHeader>
 
         <div className="w-full flex flex-wrap min-h-[20rem] p-2 space-x-5">
             <ShapeGroupEditor isOpen={editOpen} closeEvent={() => setEditOpen(false)}></ShapeGroupEditor>
@@ -38,7 +42,7 @@ const ShapeGroupsManagerComponent: FC = () => {
                 <ShapeGroupComponent key={index} shapeGroup={group}></ShapeGroupComponent>
             )}
         </div>
-    </div>;
+    </Card>;
 };
 
 export default ShapeGroupsManagerComponent;

@@ -11,11 +11,12 @@ const fetcher = (...args: any[]) => fetch(...args).then(res => res.json())
 
 type ShapeT = {
     isOpen: boolean;
+    createMode: boolean;
     shapeID: number;
     closeEvent: any;
 }
 
-const ShapeEditor = ({ shapeID, isOpen, closeEvent }: ShapeT) => {
+const ShapeEditor = ({ shapeID, isOpen, closeEvent, createMode }: ShapeT) => {
 
     const shapes = [
         { name: 'Rectangle', type: 0 },
@@ -38,51 +39,55 @@ const ShapeEditor = ({ shapeID, isOpen, closeEvent }: ShapeT) => {
     const [fetched, setFetched] = useState(false);
 
     useEffect(() => {
-        if (shapeID > 0 && isOpen) {
-            fetch(`/shapeAPI/api/Shape/${shapeID}`).then((res) => res.json()).then((data: BaseShape) => {
+        if (isOpen) {
+            console.log("Opened");
+            if (!createMode) {
+                fetch(`/shapeAPI/api/Shape/${shapeID}`).then((res) => res.json()).then((data: BaseShape) => {
 
-                let newShape = shape;
-                newShape.name = data.name;
+                    let newShape = shape;
+                    newShape.name = data.name;
 
-                let foundType = shapes.find((s) => { return s.type === data.type; });
+                    let foundType = shapes.find((s) => { return s.type === data.type; });
 
-                setSelected(foundType ? foundType!.name : shapes[0].name);
+                    setSelected(foundType ? foundType!.name : shapes[0].name);
 
-                switch (data.type) {
-                    case 0:
-                        let rect = data as RectangleShape;
+                    switch (data.type) {
+                        case 0:
+                            let rect = data as RectangleShape;
 
-                        newShape.lenght = rect.lenght;
-                        newShape.width = rect.width;
+                            newShape.lenght = rect.lenght;
+                            newShape.width = rect.width;
 
-                        break;
+                            break;
 
-                    case 1:
-                        let circ = data as CircleShape;
+                        case 1:
+                            let circ = data as CircleShape;
 
-                        newShape.diameter = circ.diameter;
+                            newShape.diameter = circ.diameter;
 
-                        break;
+                            break;
 
-                    case 2:
-                        let tri = data as TriangleShape;
+                        case 2:
+                            let tri = data as TriangleShape;
 
-                        newShape.base = tri.baseLenght;
-                        newShape.sideOne = tri.sideOne;
-                        newShape.sideTwo = tri.sideTwo;
-                        break;
-                }
+                            newShape.base = tri.baseLenght;
+                            newShape.sideOne = tri.sideOne;
+                            newShape.sideTwo = tri.sideTwo;
+                            break;
+                    }
 
-                setShape(newShape);
+                    setShape(newShape);
 
-                setTimeout(function () {
-                    setFetched(true);
-                }, 200);
-            });
-        } else if (isOpen) {
-            setFetched(true);
+                    setTimeout(function () {
+                        setFetched(true);
+                    }, 200);
+                });
+            } else {
+                console.log("open in create mode");
+                setFetched(true);
+            }
         }
-    }, [shapeID]);
+    }, [shapeID, createMode, isOpen]);
 
     const updateShape = async () => {
         console.log("Update Shape");
@@ -225,7 +230,7 @@ const ShapeEditor = ({ shapeID, isOpen, closeEvent }: ShapeT) => {
             </div>
 
         </DialogBody>
-        <DialogFooter>
+        <DialogFooter className="space-x-5">
             <Button variant="gradient" color="green" onClick={() => shapeID > 0 ? updateShape() : createShape()}>Valider</Button>
             <Button variant="gradient" color="red" onClick={() => close()}>Cancel</Button>
         </DialogFooter>

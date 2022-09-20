@@ -1,7 +1,6 @@
-﻿import { Popover } from "@headlessui/react";
+﻿import { Button, Menu, MenuHandler, MenuItem, MenuList } from "@material-tailwind/react";
 import { useState } from "react";
 import { BaseShape } from "../../../../interfaces/BaseShape";
-import ShapeEditor from "./ShapeEditorComponent";
 
 type ShapeComponentT = {
     shape: BaseShape;
@@ -18,15 +17,15 @@ const ShapeComponent = ({ shape, openEditEvent }: ShapeComponentT) => {
                     {shape.id} - {shape.name}
                 </div>
 
-                <Popover className="relative">
-                    <Popover.Button>Options</Popover.Button>
-
-                    <Popover.Panel className="absolute bg-white shadow-lg border p-5 z-10 w-fit h-fit flex flex-col space-y-4">
-                        <button className="" onClick={() => openEditEvent(shape.id)}>Edit</button>
-                        <button className="text-red-500">Supprimer</button>
-                    </Popover.Panel>
-                </Popover>
-
+                <Menu>
+                    <MenuHandler>
+                        <Button variant="outlined">Options</Button>
+                    </MenuHandler>
+                    <MenuList>
+                        <MenuItem onClick={() => openEditEvent(shape.id)}>Edit</MenuItem>
+                        <MenuItem  color="red">Supprimer</MenuItem>
+                    </MenuList>
+                </Menu>
             </div>
 
             <div className="grow p-4">

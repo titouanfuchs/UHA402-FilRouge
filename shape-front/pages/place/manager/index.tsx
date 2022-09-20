@@ -7,7 +7,7 @@ const Manager: NextPage = () => {
     return (
         <div key="main">
             <Headerbar Title="PlaceManager" key="Header"></Headerbar>
-            <div className="p-2 space-y-5">
+            <div className="p-2 space-y-10">
                 <ShapeGroupsManagerComponent></ShapeGroupsManagerComponent>
                 <ShapeManagerComponent></ShapeManagerComponent>
             </div>

@@ -1,4 +1,4 @@
-﻿import { Popover } from "@headlessui/react";
+﻿import { Button, Card, CardHeader, MenuHandler, MenuItem, MenuList, Typography, Menu } from "@material-tailwind/react";
 import { useState } from "react";
 import useSWR from "swr";
 import { BaseShape } from "../../../../interfaces/BaseShape";
@@ -24,38 +24,41 @@ const ShapeManagerComponent = () => {
 
     const openEdit = () => {
         setSelectedID(0);
+
         setEditOpen(true);
     }
 
     const closeEdit = () => {
-        setSelectedID(0);
         setEditOpen(false);
     }
 
-    return <div className="rounded-lg overflow-hidden border border-green-500 shadow-lg">
-
-        <div className="flex justify-between border-b border-green-300 w-full p-2">
-            <div className="">
+    return <Card className="border border-green-500">
+        <CardHeader
+            variant="gradient"
+            color="green"
+            className="mb-4 grid h-fit place-items-center p-2"
+        >
+            <Typography variant="h3" color="white">
                 Shapes
-            </div>
-            <div className="flex h-full flex-col justify-center">
-                <Popover className="relative">
-                    <Popover.Button>Options</Popover.Button>
+            </Typography>
 
-                    <Popover.Panel className="absolute bg-white shadow-lg border p-5 z-10 w-fit h-fit flex flex-col space-y-4">
-                        <button onClick={() => openEdit()}>Créer</button>
-                    </Popover.Panel>
-                </Popover>
-            </div>
-        </div>
+            <Menu>
+                <MenuHandler>
+                    <Button variant="gradient">Options</Button>
+                </MenuHandler>
+                <MenuList>
+                    <MenuItem onClick={() => openEdit()}>Créer</MenuItem>
+                </MenuList>
+            </Menu>
+        </CardHeader>
 
         <div className="w-full flex flex-wrap min-h-[20rem] p-2 space-x-5">
-            <ShapeEditor shapeID={selectedID} isOpen={editOpen} closeEvent={() => closeEdit()} ></ShapeEditor>
+            <ShapeEditor shapeID={selectedID} isOpen={editOpen} createMode={selectedID == 0} closeEvent={() => closeEdit()} ></ShapeEditor>
             {data.map((shape: BaseShape, index: number) =>
                 <ShapeComponent openEditEvent={(id: number) => openEditWithShape(id)} key={index} shape={shape}></ShapeComponent>
             )}
         </div>
-    </div>;
+    </Card>;
 };
 
 export default ShapeManagerComponent;

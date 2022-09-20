@@ -1,4 +1,4 @@
-﻿import { Dialog } from "@headlessui/react";
+﻿import { Dialog, DialogBody, DialogHeader, Input, Select, Option, DialogFooter, Button } from "@material-tailwind/react";
 import { mutate } from "swr";
 import { ShapeGroup } from "../../../../interfaces/ShapeGroup";
 
@@ -36,36 +36,35 @@ const ShapeGroupEditor = ({ shapeGroup, isOpen, closeEvent }: ShapeGroupEditorT)
         closeEvent();
     }
 
-    return <Dialog open={isOpen} onClose={() => closeEvent()} className="relative z-50">
-        <div className="fixed inset-0 flex items-center justify-center p-4">
-            <Dialog.Panel className="w-full max-w-sm rounded-lg bg-white border shadow-lg p-5">
-                <Dialog.Title className="text-2xl">ShapeGroup Editor</Dialog.Title>
-                <Dialog.Description>
-                    Dialogue d'édition de ShapesGroupe
-                </Dialog.Description>
+    const closeDialog = () => {
+        closeEvent();
+    }
 
+    return (
+        <Dialog open={isOpen} handler={() => closeDialog()}>
+            <DialogHeader>ShapeGroup Editor</DialogHeader>
+            <DialogBody divider>
                 <div className="flex flex-col space-y-5 p-2">
                     <div>
-                        <input
+                        <Input
+                            label="Shape Name"
                             type="text"
-                            name="GroupName"
-                            id="groupNameInput"
-                            className="block w-full rounded-md border-gray-300 pl-7  focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Nom de groupe"
-                            defaultValue={sGroup.groupName}
-                            onChange={(e) => sGroup.groupName = e.target.value}
+                            name="ShapeName"
+                            id="shapeNameInput"
+                                placeholder="Nom du groupe..."
+                                defaultValue={sGroup.groupName}
+                                onChange={(e) => sGroup.groupName = e.target.value}
                         />
                     </div>
                 </div>
 
-                <div className="flex space-x-5 justify-end">
-                    <button onClick={() => shapeGroup ? updateShape() : createShape()}>Valider</button>
-                    <button onClick={() => closeEvent()} className="text-red-500">Cancel</button>
-                </div>
-
-            </Dialog.Panel>
-        </div>
-    </Dialog>;
+            </DialogBody>
+            <DialogFooter className="space-x-5">
+                <Button variant="gradient" color="green" onClick={() => shapeGroup != null ? updateShape() : createShape()}>Valider</Button>
+                <Button variant="gradient" color="red" onClick={() => closeDialog()}>Cancel</Button>
+            </DialogFooter>
+        </Dialog>
+    );
 };
 
 export default ShapeGroupEditor;

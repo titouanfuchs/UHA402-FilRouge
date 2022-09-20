@@ -1,6 +1,6 @@
-﻿import { Dialog, Popover } from "@headlessui/react";
-import { FC, useState } from "react";
-import { mutate, useSWRConfig } from "swr";
+﻿import { Button, Menu, MenuHandler, MenuItem, MenuList } from "@material-tailwind/react";
+import { useState } from "react";
+import { useSWRConfig } from "swr";
 import { ShapeGroup } from "../../../../interfaces/ShapeGroup";
 import ShapeGroupEditor from "./ShapeGroupEditorComponent";
 
@@ -28,20 +28,26 @@ const ShapeGroupComponent = ({ shapeGroup }: ShapeGroupC) => {
                         {shapeGroup.id} - {shapeGroup.groupName}
                     </div>
 
-                    <Popover className="relative">
-                        <Popover.Button>Options</Popover.Button>
-
-                        <Popover.Panel className="absolute bg-white shadow-lg border p-5 z-10 w-fit h-fit flex flex-col space-y-4">
-                            <button className="" onClick={() => setEditOpen(true)}>Edit</button>
-                            <button className="text-red-500" onClick={() => deleteGroup()}>Supprimer</button>
-                        </Popover.Panel>
-                    </Popover>
-
+                    <Menu>
+                        <MenuHandler>
+                            <Button variant="outlined">Options</Button>
+                        </MenuHandler>
+                        <MenuList>
+                            <MenuItem onClick={() => setEditOpen(true)}>Edit</MenuItem>
+                            <MenuItem onClick={() => deleteGroup()}>Supprimer</MenuItem>
+                        </MenuList>
+                    </Menu>
                 </div>
 
                 <div className="grow p-4">
                     <p>
                         Nbr de formes : {shapeGroup.shapes.length}
+                    </p>
+                    <p>
+                        Surface totale : {shapeGroup.surface}
+                    </p>
+                    <p>
+                        Périmètre total : {shapeGroup.perimeter}
                     </p>
                 </div>
             </div>
