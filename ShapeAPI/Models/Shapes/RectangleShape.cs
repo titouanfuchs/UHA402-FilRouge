@@ -4,41 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace basicForms.Models.Shapes
+namespace ShapeAPI.Models.Shapes
 {
     public class RectangleShape : BaseShape
     {
         #region Fields
-        protected double _Lenght = 0;
-        protected double _Width = 0;
-        public double Width { get => _Width; }
-        public double SetWidth
-        {
-            set => _Width = value;
-        }
-
-        public double Lenght { get => _Lenght; }
-        public double SetLenght
-        {
-            set => _Lenght = value;
-        }
+        public double Lenght { get; set; } = 0;
+        public double Width { get; set; } = 0;
         #endregion
 
         public RectangleShape(string name, double lenght = 1, double width = 1) : base(name) {
-            _Lenght = lenght;
-            _Width = width;
-            _ShapeType = ShapeType.Rectangle;
+            Lenght = lenght;
+            Width = width;
         }
+
+        public RectangleShape() : base() { }
 
         #region Methods
         public override double CalculateSurface()
         {
-            return _Lenght * _Width;
+            return Lenght * Width;
         }
 
         public override double CalculatePerimeter()
         {
-            return _Lenght * (double)2 + _Width * (double)2;
+            return Lenght * (double)2 + Width * (double)2;
         }
 
         public override void Display()

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
-namespace basicForms.Controllers
+namespace ShapeAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -18,7 +18,7 @@ namespace basicForms.Controllers
         /// Retourne toutes les formes de tous les groupes
         /// </summary>
         [HttpGet()]
-        public ActionResult<GetAllShapesResponse> GetAll()
+        public ActionResult<List<BaseShape>> GetAll()
         {
             return Ok(_ShapesService.GetAll());
         }
@@ -28,9 +28,23 @@ namespace basicForms.Controllers
         /// </summary>
         /// <param name="id">Identifiant de la forme</param>
         [HttpGet("{id}")]
-        public ActionResult<BaseShape> Get(int id)
+        public ActionResult<ShapeDTO> Get(int id)
         {
-            return Ok(_ShapesService.GetShape(id));
+            var shape = _ShapesService.GetShape(id);
+
+            ShapeType shapeType;
+            Type currentType = shape.GetType();
+
+            if (currentType == typeof(RectangleShape)) shapeType = ShapeType.Rectangle;
+            else if (currentType == typeof(TriangleShape)) shapeType = ShapeType.Triangle;
+            else if (currentType == typeof(CircleShape)) shapeType = ShapeType.Circle;
+            else throw new ArgumentException($"Shape with ID {id} is not a valid Shape");
+
+            return Ok(new ShapeDTO()
+            {
+                Shape = shape,
+                Type = shapeType
+            });
         }
 
         /// <summary>
@@ -76,8 +90,8 @@ namespace basicForms.Controllers
         ///     1: Circle
         ///     2: Triangle
         /// </param>
-        [HttpPost("Shape")]
-        public ActionResult<BaseShape> CreateShape([FromQuery] ShapeType shapeType,[FromBody][Required] CreateShape createQuery)
+        [HttpPost("{shapeType}")]
+        public ActionResult<BaseShape> CreateShape([Required] ShapeType shapeType,[FromBody][Required] CreateShape createQuery)
         {
             try
             {
@@ -96,9 +110,71 @@ namespace basicForms.Controllers
         /// </summary>
         /// <param name="groupName">Nom du groupe</param>
         [HttpPost("Group")]
-        public ActionResult<ShapeGroup> CreateGroup([FromQuery][Required] string groupName)
+        public ActionResult<ShapeGroup> CreateGroup([FromBody][Required] ShapeGroupDTO query)
         {
-            return Ok(_ShapesService.CreateGroup(groupName));
+            return Ok(_ShapesService.CreateGroup(query.GroupName));
+        }
+
+        /// <summary>
+        /// Permet la modification des groupes
+        /// </summary>
+        /// <param name="id">ID du groupe</param>
+        [HttpPatch("Group/{id}")]
+        public ActionResult<ShapeGroup> CreateGroup(int id, [FromBody] ShapeGroupDTO query)
+        {
+            return Ok(_ShapesService.EditGroup(query, id));
+        }
+
+        /// <summary>
+        /// Permet la suppression d'un groupe de formes par son ID.
+        /// </summary>
+        /// <param name="id">Identifiant du groupe</param>
+        [HttpDelete("Group/{id}")]
+        public ActionResult<BaseShape> DeleteGroup(int id)
+        {
+            try
+            {
+                _ShapesService.DeleteShapeGroup(id);
+                return StatusCode(200, new BaseResponse("Groupe supprimée avec succès"));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(501, new BaseResponse($"Error : {e.Message}"));
+            }
+        }
+
+        /// <summary>
+        /// Retourne tous les groupes
+        /// </summary>
+        [HttpGet("Group")]
+        public ActionResult<List<ShapeGroup>> GetGroups()
+        {
+            try
+            {
+                return _ShapesService.GetGroups();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"Error: {e.Message}");
+            }
+
+        }
+
+        /// <summary>
+        /// Retourne un seul groupe de formes
+        /// </summary>
+        /// <param name="id">Identifiant du groupe de formes</param>
+        [HttpGet("Group/{id}")]
+        public ActionResult<ShapeGroup> GetGroup(int id)
+        {
+            try
+            {
+                return _ShapesService.GetGroup(id);
+            }catch(Exception e)
+            {
+                return StatusCode(500, $"Error: {e.Message}");
+            }
+
         }
 
         /// <summary>
@@ -106,8 +182,8 @@ namespace basicForms.Controllers
         /// </summary>
         /// <param name="shapeID">Identifiant de la forme.</param>
         /// <param name="groupID">Identifiant du groupe.</param>
-        [HttpPost("AddShapeToGroup")]
-        public ActionResult<string> AddShapeToGroup([FromQuery][Required] int shapeID, [FromQuery][Required] int groupID)
+        [HttpPost("AddShapeToGroup/{shapeID}/{groupID}")]
+        public ActionResult<string> AddShapeToGroup([Required] int shapeID,[Required] int groupID)
         {
             try
             {

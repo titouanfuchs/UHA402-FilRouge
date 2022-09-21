@@ -4,31 +4,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace basicForms.Models.Shapes
+namespace ShapeAPI.Models.Shapes
 {
     public class CircleShape : BaseShape
     {
         #region Fields
-        protected double _Diameter = 0;
-        public double Diameter { get => _Diameter; }
-        public double SetDiameter { set => _Diameter = value; }
+        public Double Diameter { get; set; }
+
         #endregion
 
         public CircleShape(string name, double diameter) : base(name)
         {
-            _Diameter = diameter;
-            _ShapeType = ShapeType.Circle;
+            Diameter = diameter;
+        }
+        public CircleShape()
+        {
+
         }
 
         #region Methods
         public override double CalculatePerimeter()
         {
-            return 2 * Math.PI * (_Diameter/2);
+            return 2 * Math.PI * (Diameter/2);
         }
 
         public override double CalculateSurface()
         {
-            double r = _Diameter / 2;
+            double r = Diameter / 2;
 
             return Math.Pow(r, 2) * Math.PI;
         }

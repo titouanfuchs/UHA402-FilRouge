@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    font-family: VCR;
+}
+
+@font-face {
+    font-family: VCR;
+    src: url(../public/fonts/VCR/VCROSDMONO1001.woff), url(../public/fonts/VCR/VCROSDMONO1001.woff2), url(../public/fonts/VCR/VCROSDMONO1001.eot);
+    font-weight: normal;
+}
+
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+

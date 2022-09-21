@@ -14,6 +14,57 @@ services:
             - ./ShapeAPI:/app
             - /app/bin
             - /app/obj
+        depends_on:
+            - shape-bdd
+        networks:
+            - intern
+           
+    shape-front:
+        container_name: "ShapeFront"
+        build:
+            dockerfile: Dockerfile
+            context: shape-front
+            target: ${TARGET}
+        env_file:
+            - ./.env
+        restart: on-failure
+        volumes:
+            - ./shape-front:/app
+            - shape-front-next:/app/.next
+            - shape-front-modules:/app/node_modules
         ports:
-            - ${PORT_API}:80
+            - ${PORT_FRONT}:3000
+            - 808:808
+        depends_on:
+            - shape-api
+        networks:
+            - intern
+    
+    shape-bdd:
+        container_name: "ShapeBDD"
+        image: postgres
+        restart: always
+        volumes: 
+            - shape-bdd:/var/lib/postgresql/data
+        env_file: ./.env
+        networks:
+            - intern
         
+    app-adminer:
+        container_name: "ShapeAdminer"
+        image: adminer
+        restart: always
+        ports:
+            - ${PORT_ADMINER}:8080
+        depends_on:
+            - shape-bdd
+        networks:
+            - intern
+volumes:
+    shape-bdd:
+    shape-front-next:
+    shape-front-modules:
+    
+networks:
+    intern:
+        external: false

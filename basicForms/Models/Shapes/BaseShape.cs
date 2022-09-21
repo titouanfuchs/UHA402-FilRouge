@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace basicForms.Models.Shapes
+namespace ShapeAPI.Models.Shapes
 {
     public abstract class BaseShape
     {

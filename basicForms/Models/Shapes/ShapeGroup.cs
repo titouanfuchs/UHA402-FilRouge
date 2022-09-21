@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace basicForms.Models.Shapes
+namespace ShapeAPI.Models.Shapes
 {
     public class ShapeGroup
     {
         #region Fields
         private List<BaseShape> _Shapes = new List<BaseShape>();
-        public List<BaseShape> Shapes { get => Shapes; }
+        public List<BaseShape> Shapes { get => _Shapes; }
 
         private string _GroupName = "Nouveau Groupe";
         public string GroupName { get => _GroupName; }
