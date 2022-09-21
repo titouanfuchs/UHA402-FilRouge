@@ -14,6 +14,9 @@ namespace ShapeAPI.Models.Shapes
         public int Id { get; set; }
         public List<BaseShape> Shapes { get; set; }
         public string GroupName { get; set; }
+
+        public double Surface { get => CalculateTotalSurface(); }
+        public double Perimeter { get => CalculateTotalPerimeter(); }
         #endregion
 
         public ShapeGroup(string groupName = "Nouveau Groupe")
