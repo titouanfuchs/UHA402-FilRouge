@@ -28,9 +28,23 @@ namespace ShapeAPI.Controllers
         /// </summary>
         /// <param name="id">Identifiant de la forme</param>
         [HttpGet("{id}")]
-        public ActionResult<BaseShape> Get(int id)
+        public ActionResult<ShapeDTO> Get(int id)
         {
-            return Ok(_ShapesService.GetShape(id));
+            var shape = _ShapesService.GetShape(id);
+
+            ShapeType shapeType;
+            Type currentType = shape.GetType();
+
+            if (currentType == typeof(RectangleShape)) shapeType = ShapeType.Rectangle;
+            else if (currentType == typeof(TriangleShape)) shapeType = ShapeType.Triangle;
+            else if (currentType == typeof(CircleShape)) shapeType = ShapeType.Circle;
+            else throw new ArgumentException($"Shape with ID {id} is not a valid Shape");
+
+            return Ok(new ShapeDTO()
+            {
+                Shape = shape,
+                Type = shapeType
+            });
         }
 
         /// <summary>
@@ -76,8 +90,8 @@ namespace ShapeAPI.Controllers
         ///     1: Circle
         ///     2: Triangle
         /// </param>
-        [HttpPost("")]
-        public ActionResult<BaseShape> CreateShape([FromQuery] ShapeType shapeType,[FromBody][Required] CreateShape createQuery)
+        [HttpPost("{shapeType}")]
+        public ActionResult<BaseShape> CreateShape([Required] ShapeType shapeType,[FromBody][Required] CreateShape createQuery)
         {
             try
             {
@@ -168,8 +182,8 @@ namespace ShapeAPI.Controllers
         /// </summary>
         /// <param name="shapeID">Identifiant de la forme.</param>
         /// <param name="groupID">Identifiant du groupe.</param>
-        [HttpPost("AddShapeToGroup")]
-        public ActionResult<string> AddShapeToGroup([FromQuery][Required] int shapeID, [FromQuery][Required] int groupID)
+        [HttpPost("AddShapeToGroup/{shapeID}/{groupID}")]
+        public ActionResult<string> AddShapeToGroup([Required] int shapeID,[Required] int groupID)
         {
             try
             {

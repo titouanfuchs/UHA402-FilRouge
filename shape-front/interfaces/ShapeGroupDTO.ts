@@ -1,6 +1,6 @@
 ﻿import { BaseShape } from "./BaseShape";
 
-export interface ShapeDTO {
+export interface ShapesDTO {
     shapes: BaseShape[];
     message: string;
 }

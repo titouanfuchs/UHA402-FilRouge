@@ -12,8 +12,8 @@ using ShapeAPI.Data;
 namespace ShapeAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220916123648_PRO402-8")]
-    partial class PRO4028
+    [Migration("20220920134109_PRO402-9")]
+    partial class PRO4029
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,9 +41,6 @@ namespace ShapeAPI.Migrations
                         .HasColumnType("text");
 
                     b.Property<int?>("ShapeGroupId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Type")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");

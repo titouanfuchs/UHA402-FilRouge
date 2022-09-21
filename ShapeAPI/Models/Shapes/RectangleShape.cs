@@ -16,7 +16,6 @@ namespace ShapeAPI.Models.Shapes
         public RectangleShape(string name, double lenght = 1, double width = 1) : base(name) {
             Lenght = lenght;
             Width = width;
-            Type = ShapeType.Rectangle;
         }
 
         public RectangleShape() : base() { }

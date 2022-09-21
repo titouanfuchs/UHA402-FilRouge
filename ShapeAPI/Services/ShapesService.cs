@@ -104,9 +104,7 @@ namespace ShapeAPI.Services
                 throw new ArgumentException($"Shape with ID {id} not found.");
             }
 
-            //Console.WriteLine(shape.GetType());
-
-            return shape!;
+            return shape;
         }
 
         public void DeleteShape(int id)

@@ -1,7 +1,4 @@
-﻿import { Popover } from "@headlessui/react";
-import { FC } from "react";
-
-type headerBar = {
+﻿type headerBar = {
     Title:string,
 }
 

@@ -14,8 +14,6 @@ namespace ShapeAPI.Models.Shapes
 
         [Key] public int Id { get; set; }
 
-        public ShapeType Type { get; set; }
-
         public double Surface { get => CalculateSurface(); }
         public double Perimeter { get => CalculatePerimeter(); }
         #endregion

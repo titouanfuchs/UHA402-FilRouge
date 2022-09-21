@@ -2,7 +2,7 @@
 import { useState } from "react";
 import useSWR from "swr";
 import { BaseShape } from "../../../../interfaces/BaseShape";
-import { ShapeDTO } from "../../../../interfaces/ShapeGroupDTO";
+import { ShapesDTO } from "../../../../interfaces/ShapeGroupDTO";
 import ShapeComponent from "./ShapeComponent";
 import ShapeEditor from "./ShapeEditorComponent";
 

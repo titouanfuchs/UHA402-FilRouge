@@ -41,9 +41,6 @@ namespace ShapeAPI.Migrations
                     b.Property<int?>("ShapeGroupId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ShapeGroupId");

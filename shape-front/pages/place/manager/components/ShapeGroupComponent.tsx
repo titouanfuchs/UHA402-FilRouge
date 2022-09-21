@@ -6,9 +6,10 @@ import ShapeGroupEditor from "./ShapeGroupEditorComponent";
 
 type ShapeGroupC = {
     shapeGroup: ShapeGroup;
+    openAllocation: any
 }
 
-const ShapeGroupComponent = ({ shapeGroup }: ShapeGroupC) => {
+const ShapeGroupComponent = ({ shapeGroup, openAllocation }: ShapeGroupC) => {
 
     let [editOpen, setEditOpen] = useState(false);
 
@@ -33,6 +34,7 @@ const ShapeGroupComponent = ({ shapeGroup }: ShapeGroupC) => {
                             <Button variant="outlined">Options</Button>
                         </MenuHandler>
                         <MenuList>
+                            <MenuItem onClick={() => openAllocation()}>Ajouter une forme</MenuItem>
                             <MenuItem onClick={() => setEditOpen(true)}>Edit</MenuItem>
                             <MenuItem onClick={() => deleteGroup()}>Supprimer</MenuItem>
                         </MenuList>

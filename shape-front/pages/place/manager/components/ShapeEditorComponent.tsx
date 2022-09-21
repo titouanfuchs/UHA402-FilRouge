@@ -4,7 +4,9 @@ import { mutate } from "swr";
 import { BaseShape } from "../../../../interfaces/BaseShape";
 import { CircleShape } from "../../../../interfaces/CircleShape";
 import { RectangleShape } from "../../../../interfaces/RectangleShape";
-import { ShapeQuery } from "../../../../interfaces/ShapeDTO";
+import { ShapeDTO } from "../../../../interfaces/ShapeDTO";
+import { ShapesDTO } from "../../../../interfaces/ShapeGroupDTO";
+import { ShapeQuery } from "../../../../interfaces/ShapeQuery";
 import { TriangleShape } from "../../../../interfaces/TriangleShape";
 
 const fetcher = (...args: any[]) => fetch(...args).then(res => res.json())
@@ -42,10 +44,10 @@ const ShapeEditor = ({ shapeID, isOpen, closeEvent, createMode }: ShapeT) => {
         if (isOpen) {
             console.log("Opened");
             if (!createMode) {
-                fetch(`/shapeAPI/api/Shape/${shapeID}`).then((res) => res.json()).then((data: BaseShape) => {
+                fetch(`/shapeAPI/api/Shape/${shapeID}`).then((res) => res.json()).then((data: ShapeDTO) => {
 
                     let newShape = shape;
-                    newShape.name = data.name;
+                    newShape.name = data.shape.name;
 
                     let foundType = shapes.find((s) => { return s.type === data.type; });
 
@@ -53,7 +55,7 @@ const ShapeEditor = ({ shapeID, isOpen, closeEvent, createMode }: ShapeT) => {
 
                     switch (data.type) {
                         case 0:
-                            let rect = data as RectangleShape;
+                            let rect = data.shape as RectangleShape;
 
                             newShape.lenght = rect.lenght;
                             newShape.width = rect.width;
@@ -61,14 +63,14 @@ const ShapeEditor = ({ shapeID, isOpen, closeEvent, createMode }: ShapeT) => {
                             break;
 
                         case 1:
-                            let circ = data as CircleShape;
+                            let circ = data.shape as CircleShape;
 
                             newShape.diameter = circ.diameter;
 
                             break;
 
                         case 2:
-                            let tri = data as TriangleShape;
+                            let tri = data.shape as TriangleShape;
 
                             newShape.base = tri.baseLenght;
                             newShape.sideOne = tri.sideOne;
@@ -77,6 +79,8 @@ const ShapeEditor = ({ shapeID, isOpen, closeEvent, createMode }: ShapeT) => {
                     }
 
                     setShape(newShape);
+
+                    console.log(newShape);
 
                     setTimeout(function () {
                         setFetched(true);
@@ -99,7 +103,9 @@ const ShapeEditor = ({ shapeID, isOpen, closeEvent, createMode }: ShapeT) => {
     }
 
     const createShape = async () => {
-        await fetch('/shapeAPI/api/Shape', { method: 'POST', body: JSON.stringify(shape), headers: { 'Content-Type': 'application/json' } })
+        let foundType = shapes.find((s) => { return s.name === selected; });
+
+        await fetch(`/shapeAPI/api/Shape/${foundType?.type}`, { method: 'POST', body: JSON.stringify(shape), headers: { 'Content-Type': 'application/json' } })
         await mutate('/shapeAPI/api/Shape');
 
         closeEvent();
@@ -133,7 +139,7 @@ const ShapeEditor = ({ shapeID, isOpen, closeEvent, createMode }: ShapeT) => {
         );
     }
 
-    return <Dialog open={isOpen} handler={() => close}>
+    return <Dialog size="lg" open={isOpen} handler={() => close}>
         <DialogHeader>Shape Editor</DialogHeader>
         <DialogBody divider>
             <div className="flex flex-col space-y-5 p-2">
@@ -149,7 +155,7 @@ const ShapeEditor = ({ shapeID, isOpen, closeEvent, createMode }: ShapeT) => {
                     />
                 </div>
 
-                <Select disabled={shapeID != 0} value={selected} onChange={() => setSelected} label="Shape Type">
+                <Select disabled={shapeID != 0} value={selected} onChange={(e) => setSelected(e)} label="Shape Type">
                     {shapes.map((sh) => (
                         <Option key={sh.type} value={`${sh.name}`}>{sh.name}</Option>
                     ))}
