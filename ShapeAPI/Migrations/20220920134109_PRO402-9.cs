@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ShapeAPI.Migrations
 {
-    public partial class PRO4028 : Migration
+    public partial class PRO4029 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

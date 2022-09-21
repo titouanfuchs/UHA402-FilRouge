@@ -5,7 +5,27 @@ VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "basicForms", "basicForms\basicForms.csproj", "{786D077A-0709-48BE-80B0-BB15292835FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapeAPI", "ShapeAPI\ShapeAPI.csproj", "{531AB418-23BC-4E06-9711-9A2C3C7B6CB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShapeAPI", "ShapeAPI\ShapeAPI.csproj", "{531AB418-23BC-4E06-9711-9A2C3C7B6CB9}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "shape-front", "shape-front\", "{4A9949B4-EFEB-4222-90A3-E157E50E3F02}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_55525"
+		Debug.AspNetCompiler.PhysicalPath = "shape-front\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_55525\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_55525"
+		Release.AspNetCompiler.PhysicalPath = "shape-front\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_55525\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "55525"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +41,10 @@ Global
 		{531AB418-23BC-4E06-9711-9A2C3C7B6CB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{531AB418-23BC-4E06-9711-9A2C3C7B6CB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{531AB418-23BC-4E06-9711-9A2C3C7B6CB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A9949B4-EFEB-4222-90A3-E157E50E3F02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A9949B4-EFEB-4222-90A3-E157E50E3F02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A9949B4-EFEB-4222-90A3-E157E50E3F02}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A9949B4-EFEB-4222-90A3-E157E50E3F02}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

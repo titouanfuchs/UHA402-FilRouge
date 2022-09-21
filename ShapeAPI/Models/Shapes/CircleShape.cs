@@ -10,12 +10,12 @@ namespace ShapeAPI.Models.Shapes
     {
         #region Fields
         public Double Diameter { get; set; }
+
         #endregion
 
         public CircleShape(string name, double diameter) : base(name)
         {
             Diameter = diameter;
-            _ShapeType = ShapeType.Circle;
         }
         public CircleShape()
         {

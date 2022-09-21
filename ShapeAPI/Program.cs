@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Options;
+using back.Swagger;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +26,8 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
+    c.DocumentFilter<PathPrefixInsertDocumentFilter>("shapeAPI");
+
     //c.SchemaFilter<EnumSchemaFilter>();
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Rewrite;
+using ShapeAPI.Models.DTO;
 using System.Text.RegularExpressions;
 
 namespace ShapeAPI.Services
@@ -25,6 +26,17 @@ namespace ShapeAPI.Services
             return group;
         }
 
+        public ShapeGroup EditGroup(ShapeGroupDTO query, int id)
+        {
+            ShapeGroup group = GetGroup(id);
+
+            group.GroupName = query.GroupName;
+
+            _Context.SaveChanges();
+
+            return group;
+        }
+
         public List<ShapeGroup> GetGroups()
         {
             return _Context.ShapesGroups
@@ -45,6 +57,17 @@ namespace ShapeAPI.Services
             return shapeGroups[0];
         }
 
+        public void DeleteShapeGroup(int id)
+        {
+            ShapeGroup? shape = _Context.Find<ShapeGroup>(id);
+
+            if (shape is null)
+                throw new ArgumentException($"ShapeGroup with ID {id} not found.");
+
+            _Context.Remove<ShapeGroup>(shape);
+            _Context.SaveChanges();
+        }
+
         public void AddShapeToGroup(int groupID, int shapeID)
         {
             BaseShape shape = GetShape(shapeID);
@@ -59,7 +82,7 @@ namespace ShapeAPI.Services
 
         #region Shapes
 
-        public GetAllShapesResponse GetAll()
+        public List<BaseShape> GetAll()
         {
             List<BaseShape> result = new List<BaseShape>();
 
@@ -67,7 +90,7 @@ namespace ShapeAPI.Services
             result.AddRange(_Context.TriangleShapes.ToList());
             result.AddRange(_Context.CircleShapes.ToList());
 
-            return new GetAllShapesResponse("Success", result);
+            return result;
         }
 
         public BaseShape GetShape(int id)
@@ -81,9 +104,7 @@ namespace ShapeAPI.Services
                 throw new ArgumentException($"Shape with ID {id} not found.");
             }
 
-            //Console.WriteLine(shape.GetType());
-
-            return shape!;
+            return shape;
         }
 
         public void DeleteShape(int id)
@@ -103,6 +124,8 @@ namespace ShapeAPI.Services
 
             if (shape is null)
                 throw new ArgumentException($"Shape with ID {id} not found.");
+
+            shape.Name = editQuery.Name;
 
             Type type = shape.GetType();
 
