@@ -7,5 +7,7 @@
         public DbSet<RectangleShape> RectangleShapes { get; set; }
         public DbSet<CircleShape> CircleShapes { get; set; }
         public DbSet<ShapeGroup> ShapesGroups { get; set; }
+
+        public DbSet<Position> Positions { get; set; }
     }
 }

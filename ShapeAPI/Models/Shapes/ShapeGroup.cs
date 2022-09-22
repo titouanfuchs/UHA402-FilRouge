@@ -14,6 +14,8 @@ namespace ShapeAPI.Models.Shapes
         public int Id { get; set; }
         public List<BaseShape> Shapes { get; set; }
         public string GroupName { get; set; }
+        public string Owner { get; set; } = "EVERY";
+        public Position GroupPosition { get; set; }
 
         public double Surface { get => CalculateTotalSurface(); }
         public double Perimeter { get => CalculateTotalPerimeter(); }
@@ -22,6 +24,12 @@ namespace ShapeAPI.Models.Shapes
         public ShapeGroup(string groupName = "Nouveau Groupe")
         {
             GroupName = groupName;
+        }
+
+        public ShapeGroup(Position pos, string groupName = "Nouveau Groupe")
+        {
+            GroupName = groupName;
+            GroupPosition = pos;
         }
 
         public ShapeGroup()

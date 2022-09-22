@@ -15,9 +15,30 @@ namespace ShapeAPI.Services
 
         #region ShapeGroup
 
+        public void Init(int x, int y)
+        {
+            _Context.ShapesGroups.RemoveRange(_Context.ShapesGroups.ToList());
+            _Context.SaveChanges();
+
+            for (int X = 0; X < x; X++)
+                for (int Y = 0; Y < y; Y++)
+                    CreateGroup($"G_{X}-{Y}", X, Y);
+        }
+
         public ShapeGroup CreateGroup(string groupName)
         {
             ShapeGroup group = new ShapeGroup(groupName);
+
+            _Context.ShapesGroups.Add(group);
+
+            _Context.SaveChanges();
+
+            return group;
+        }
+
+        public ShapeGroup CreateGroup(string groupName, int x, int y)
+        {
+            ShapeGroup group = new ShapeGroup(new Position() { X = x, Y = y, }, groupName);
 
             _Context.ShapesGroups.Add(group);
 
@@ -41,6 +62,7 @@ namespace ShapeAPI.Services
         {
             return _Context.ShapesGroups
                 .Include(groupe => groupe.Shapes)
+                .Include(groupe => groupe.GroupPosition)
                 .ToList();
         }
 

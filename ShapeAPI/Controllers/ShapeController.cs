@@ -15,6 +15,19 @@ namespace ShapeAPI.Controllers
         }
 
         /// <summary>
+        /// Initialise le programme
+        /// </summary>
+        /// <param name="X">Nombre de colonnes</param>
+        /// <param name="Y">Nombre de lignes</param>
+        /// <returns></returns>
+        [HttpGet("Init/{X}/{Y}")]
+        public ActionResult Init([Required] int X, [Required] int Y)
+        {
+            _ShapesService.Init(X, Y);
+            return Ok();
+        }
+
+        /// <summary>
         /// Retourne toutes les formes de tous les groupes
         /// </summary>
         [HttpGet()]
@@ -90,12 +103,13 @@ namespace ShapeAPI.Controllers
         ///     1: Circle
         ///     2: Triangle
         /// </param>
-        [HttpPost("{shapeType}")]
-        public ActionResult<BaseShape> CreateShape([Required] ShapeType shapeType,[FromBody][Required] CreateShape createQuery)
+        [HttpPost("{shapeType}/{groupID}")]
+        public ActionResult<BaseShape> CreateShape([Required] ShapeType shapeType,[FromBody][Required] CreateShape createQuery, [Required] int groupID)
         {
             try
             {
                 BaseShape shape = _ShapesService.CreateShape(createQuery, shapeType);
+                _ShapesService.AddShapeToGroup(groupID, shape.Id);
 
                 return StatusCode(201, shape);
             }
