@@ -70,11 +70,19 @@ namespace ShapeAPI.Services
         {
             List<ShapeGroup> shapeGroups = _Context.ShapesGroups
                 .Where(s => s.Id == id)
+                .Include(sg => sg.GroupPosition)
                 .Include(groupe => groupe.Shapes)
+                .ThenInclude(s => s.ShapePosition)
                 .ToList();
 
             if (shapeGroups.Count() == 0)
                 throw new ArgumentException($"ShapeGroup with ID {id} not found.");
+
+
+            var shapeGroup = shapeGroups[0];
+            shapeGroup.AlternateShapes = new List<ShapeDTO>();
+            shapeGroup.Shapes.ForEach(s => shapeGroup.AlternateShapes.Add(CreateShapeDTO(s)));
+            shapeGroup.Shapes.Clear();
 
             return shapeGroups[0];
         }
@@ -127,6 +135,23 @@ namespace ShapeAPI.Services
             }
 
             return shape;
+        }
+
+        public ShapeDTO CreateShapeDTO(BaseShape shape)
+        {
+            ShapeType shapeType;
+            Type currentType = shape.GetType();
+
+            if (currentType == typeof(RectangleShape)) shapeType = ShapeType.Rectangle;
+            else if (currentType == typeof(TriangleShape)) shapeType = ShapeType.Triangle;
+            else if (currentType == typeof(CircleShape)) shapeType = ShapeType.Circle;
+            else throw new ArgumentException($"Shape with ID {shape.Id} is not a valid Shape");
+
+            return new ShapeDTO()
+            {
+                Shape = shape,
+                Type = shapeType
+            };
         }
 
         public void DeleteShape(int id)
@@ -188,6 +213,8 @@ namespace ShapeAPI.Services
         {
             BaseShape? newShape = null;
 
+            
+
             switch (type)
             {
                 default:
@@ -229,6 +256,9 @@ namespace ShapeAPI.Services
 
                     throw new ArgumentNullException("Diameter must not be null. (Circle)");
             }
+
+            newShape.ShapePosition = new Position() { X = 0, Y = 0 };
+
             _Context.SaveChanges();
 
             return newShape;

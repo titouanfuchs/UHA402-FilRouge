@@ -16,8 +16,7 @@ builder.Services.AddTransient<ShapesService>();
 #region Database
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString($"database"));
-    //options.EnableSensitiveDataLogging();
+    options.UseNpgsql(builder.Configuration.GetConnectionString($"database")).EnableSensitiveDataLogging();
 });
 
 #endregion

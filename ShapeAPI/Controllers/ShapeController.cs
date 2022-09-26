@@ -45,19 +45,7 @@ namespace ShapeAPI.Controllers
         {
             var shape = _ShapesService.GetShape(id);
 
-            ShapeType shapeType;
-            Type currentType = shape.GetType();
-
-            if (currentType == typeof(RectangleShape)) shapeType = ShapeType.Rectangle;
-            else if (currentType == typeof(TriangleShape)) shapeType = ShapeType.Triangle;
-            else if (currentType == typeof(CircleShape)) shapeType = ShapeType.Circle;
-            else throw new ArgumentException($"Shape with ID {id} is not a valid Shape");
-
-            return Ok(new ShapeDTO()
-            {
-                Shape = shape,
-                Type = shapeType
-            });
+            return Ok(_ShapesService.CreateShapeDTO(shape));
         }
 
         /// <summary>
@@ -73,7 +61,7 @@ namespace ShapeAPI.Controllers
             }
             catch(Exception e)
             {
-                return StatusCode(500, new BaseResponse($"Shape with ID {id} not found."));
+                return StatusCode(418, new BaseResponse($"Shape with ID {id} not found."));
             }
         }
 
@@ -115,7 +103,7 @@ namespace ShapeAPI.Controllers
             }
             catch(Exception e)
             {
-                return StatusCode(500, new BaseResponse($"Error : {e.Message}"));
+                return StatusCode(418, new BaseResponse($"Error : {e.Message}"));
             }
         }
 
@@ -169,7 +157,7 @@ namespace ShapeAPI.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, $"Error: {e.Message}");
+                return StatusCode(418, $"Error: {e.Message}");
             }
 
         }
@@ -186,7 +174,7 @@ namespace ShapeAPI.Controllers
                 return _ShapesService.GetGroup(id);
             }catch(Exception e)
             {
-                return StatusCode(500, $"Error: {e.Message}");
+                return StatusCode(418, $"Error: {e.Message}");
             }
 
         }
@@ -206,7 +194,7 @@ namespace ShapeAPI.Controllers
             }
             catch(Exception e)
             {
-                return StatusCode(500, $"Error : {e.Message}");
+                return StatusCode(418, $"Error : {e.Message}");
             }
         }
     }

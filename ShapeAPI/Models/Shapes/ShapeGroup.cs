@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,9 @@ namespace ShapeAPI.Models.Shapes
         [Key]
         public int Id { get; set; }
         public List<BaseShape> Shapes { get; set; }
+
+        [NotMapped]
+        public List<ShapeDTO> AlternateShapes { get; set; }
         public string GroupName { get; set; }
         public string Owner { get; set; } = "EVERY";
         public Position GroupPosition { get; set; }

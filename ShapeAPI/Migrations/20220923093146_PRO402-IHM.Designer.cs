@@ -12,7 +12,7 @@ using ShapeAPI.Data;
 namespace ShapeAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220922092100_PRO402-IHM")]
+    [Migration("20220923093146_PRO402-IHM")]
     partial class PRO402IHM
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,19 +36,19 @@ namespace ShapeAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("GroupId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int?>("ShapeGroupId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("ShapePositionID")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GroupId");
+                    b.HasIndex("ShapeGroupId");
 
                     b.HasIndex("ShapePositionID");
 
@@ -146,17 +146,15 @@ namespace ShapeAPI.Migrations
 
             modelBuilder.Entity("ShapeAPI.Models.Shapes.BaseShape", b =>
                 {
-                    b.HasOne("ShapeAPI.Models.Shapes.ShapeGroup", "Group")
+                    b.HasOne("ShapeAPI.Models.Shapes.ShapeGroup", null)
                         .WithMany("Shapes")
-                        .HasForeignKey("GroupId");
+                        .HasForeignKey("ShapeGroupId");
 
                     b.HasOne("ShapeAPI.Models.Shapes.Position", "ShapePosition")
                         .WithMany()
                         .HasForeignKey("ShapePositionID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Group");
 
                     b.Navigation("ShapePosition");
                 });

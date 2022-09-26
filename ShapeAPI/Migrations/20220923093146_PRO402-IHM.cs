@@ -53,8 +53,8 @@ namespace ShapeAPI.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     ShapePositionID = table.Column<int>(type: "integer", nullable: false),
-                    GroupId = table.Column<int>(type: "integer", nullable: true),
                     Discriminator = table.Column<string>(type: "text", nullable: false),
+                    ShapeGroupId = table.Column<int>(type: "integer", nullable: true),
                     Diameter = table.Column<double>(type: "double precision", nullable: true),
                     Lenght = table.Column<double>(type: "double precision", nullable: true),
                     Width = table.Column<double>(type: "double precision", nullable: true),
@@ -72,16 +72,16 @@ namespace ShapeAPI.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BaseShape_ShapesGroups_GroupId",
-                        column: x => x.GroupId,
+                        name: "FK_BaseShape_ShapesGroups_ShapeGroupId",
+                        column: x => x.ShapeGroupId,
                         principalTable: "ShapesGroups",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseShape_GroupId",
+                name: "IX_BaseShape_ShapeGroupId",
                 table: "BaseShape",
-                column: "GroupId");
+                column: "ShapeGroupId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BaseShape_ShapePositionID",

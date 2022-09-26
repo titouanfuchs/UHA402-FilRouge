@@ -14,8 +14,8 @@ const Place: NextPage = () => {
     useEffect(() => {
 
         if (data) {
-            console.log(data);
-            document.getElementById("PlaceCanvas")!.style.width = `${5 * (data[data.length - 1].groupPosition.x + 1) + 1.3}rem`;
+            if (data.length > 0)
+                document.getElementById("PlaceCanvas")!.style.width = `${5 * (data[data.length - 1].groupPosition.x + 1) + 1.3}rem`;
         }
 
     })
