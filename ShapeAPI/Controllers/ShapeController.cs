@@ -65,6 +65,13 @@ namespace ShapeAPI.Controllers
             }
         }
 
+        [HttpPatch("SetPosition/{id}")]
+        public ActionResult SetShapePosition(int id, [FromBody] ShapePositionDTO query)
+        {
+            _ShapesService.SetShapePosition(id, query);
+            return Ok();
+        }
+
         /// <summary>
         /// Permet la suppression d'une forme par son ID.
         /// </summary>

@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ShapeAPI.Migrations
 {
-    public partial class PRO402IHM : Migration
+    public partial class PRO402HIM : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,7 +46,7 @@ namespace ShapeAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BaseShape",
+                name: "Shapes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -64,28 +64,28 @@ namespace ShapeAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BaseShape", x => x.Id);
+                    table.PrimaryKey("PK_Shapes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BaseShape_Positions_ShapePositionID",
+                        name: "FK_Shapes_Positions_ShapePositionID",
                         column: x => x.ShapePositionID,
                         principalTable: "Positions",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BaseShape_ShapesGroups_ShapeGroupId",
+                        name: "FK_Shapes_ShapesGroups_ShapeGroupId",
                         column: x => x.ShapeGroupId,
                         principalTable: "ShapesGroups",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseShape_ShapeGroupId",
-                table: "BaseShape",
+                name: "IX_Shapes_ShapeGroupId",
+                table: "Shapes",
                 column: "ShapeGroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseShape_ShapePositionID",
-                table: "BaseShape",
+                name: "IX_Shapes_ShapePositionID",
+                table: "Shapes",
                 column: "ShapePositionID");
 
             migrationBuilder.CreateIndex(
@@ -97,7 +97,7 @@ namespace ShapeAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BaseShape");
+                name: "Shapes");
 
             migrationBuilder.DropTable(
                 name: "ShapesGroups");

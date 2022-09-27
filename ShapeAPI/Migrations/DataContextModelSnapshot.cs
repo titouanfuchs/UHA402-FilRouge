@@ -50,7 +50,7 @@ namespace ShapeAPI.Migrations
 
                     b.HasIndex("ShapePositionID");
 
-                    b.ToTable("BaseShape");
+                    b.ToTable("Shapes");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("BaseShape");
                 });

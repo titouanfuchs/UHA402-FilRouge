@@ -12,8 +12,8 @@ using ShapeAPI.Data;
 namespace ShapeAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220923093146_PRO402-IHM")]
-    partial class PRO402IHM
+    [Migration("20220926081714_PRO402-HIM")]
+    partial class PRO402HIM
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -52,7 +52,7 @@ namespace ShapeAPI.Migrations
 
                     b.HasIndex("ShapePositionID");
 
-                    b.ToTable("BaseShape");
+                    b.ToTable("Shapes");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("BaseShape");
                 });

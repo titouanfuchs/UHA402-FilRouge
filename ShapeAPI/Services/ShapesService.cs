@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Rewrite;
 using ShapeAPI.Models.DTO;
+using System.ComponentModel;
 using System.Text.RegularExpressions;
 
 namespace ShapeAPI.Services
@@ -62,11 +63,12 @@ namespace ShapeAPI.Services
         {
             return _Context.ShapesGroups
                 .Include(groupe => groupe.Shapes)
+                .ThenInclude(s => s.ShapePosition)
                 .Include(groupe => groupe.GroupPosition)
                 .ToList();
         }
 
-        public ShapeGroup GetGroup(int id)
+        public ShapeGroup GetGroup(int id, bool keep = false)
         {
             List<ShapeGroup> shapeGroups = _Context.ShapesGroups
                 .Where(s => s.Id == id)
@@ -78,11 +80,13 @@ namespace ShapeAPI.Services
             if (shapeGroups.Count() == 0)
                 throw new ArgumentException($"ShapeGroup with ID {id} not found.");
 
-
-            var shapeGroup = shapeGroups[0];
-            shapeGroup.AlternateShapes = new List<ShapeDTO>();
-            shapeGroup.Shapes.ForEach(s => shapeGroup.AlternateShapes.Add(CreateShapeDTO(s)));
-            shapeGroup.Shapes.Clear();
+            if (!keep)
+            {
+                var shapeGroup = shapeGroups[0];
+                shapeGroup.AlternateShapes = new List<ShapeDTO>();
+                shapeGroup.Shapes.ForEach(s => shapeGroup.AlternateShapes.Add(CreateShapeDTO(s)));
+                shapeGroup.Shapes.Clear();
+            }
 
             return shapeGroups[0];
         }
@@ -101,10 +105,9 @@ namespace ShapeAPI.Services
         public void AddShapeToGroup(int groupID, int shapeID)
         {
             BaseShape shape = GetShape(shapeID);
-            ShapeGroup shapeGroup = GetGroup(groupID);
+            ShapeGroup shapeGroup = GetGroup(groupID, true);
 
             shapeGroup.AddShape(shape!);
-            _Context.Update<ShapeGroup>(shapeGroup);
             _Context.SaveChanges();
         }
 
@@ -114,27 +117,37 @@ namespace ShapeAPI.Services
 
         public List<BaseShape> GetAll()
         {
-            List<BaseShape> result = new List<BaseShape>();
-
-            result.AddRange(_Context.RectangleShapes.ToList());
-            result.AddRange(_Context.TriangleShapes.ToList());
-            result.AddRange(_Context.CircleShapes.ToList());
-
-            return result;
+           return _Context.Shapes.ToList();
         }
 
         public BaseShape GetShape(int id)
         {
             BaseShape? shape = null;
+            
             try
             {
-                 shape = _Context.Find<BaseShape>(id);
+                shape = _Context.Shapes
+                   .Where(s => s.Id == id)
+                   .Include(s => s.ShapePosition)
+                   .First();
             }catch(Exception e)
             {
                 throw new ArgumentException($"Shape with ID {id} not found.");
             }
 
             return shape;
+        }
+
+        public void SetShapePosition(int id, ShapePositionDTO query)
+        {
+            BaseShape shape = GetShape(id);
+
+            Console.WriteLine($"{query.X}, {query.Y}");
+
+            shape.ShapePosition.X = query.X;
+            shape.ShapePosition.Y = query.Y;
+
+            _Context.SaveChanges();
         }
 
         public ShapeDTO CreateShapeDTO(BaseShape shape)
