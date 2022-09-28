@@ -20,6 +20,7 @@ const Editor: NextPage = () => {
 
     const [isOpen, setOpen] = useState(false);
     const [selectedShape, setSelected] = useState<number>(0);
+    const [isMenuLocked, setMenuLock] = useState(false);
     let shapeID: number = 0; 
     const [dragging, setDrag] = useState<boolean>(false);
 
@@ -39,89 +40,90 @@ const Editor: NextPage = () => {
     const [shapes, setShapes, canvasRef, width, setWidth, height, setHeight] = useCanvas();
 
     function ShapeClick(e: any, prevent: boolean = false) {
-        if (!prevent && !dragging) {
-            var x = e.pageX - canvasRef.current.offsetLeft;
-            var y = e.pageY - canvasRef.current.offsetTop;
 
-            //Recherche de toutes les formes pouvant correspondre au click
-            let shapesInRange: ShapeDTO[] = [];
+        var x = e.pageX - canvasRef.current.offsetLeft;
+        var y = e.pageY - canvasRef.current.offsetTop;
 
-            if (shapes) {
-                shapes.forEach(function (element: ShapeDTO) {
-                    switch (element.type) {
-                        case 0:
-                            let rect: RectangleShape = (element.shape as unknown) as RectangleShape;
+        //Recherche de toutes les formes pouvant correspondre au click
+        let shapesInRange: ShapeDTO[] = [];
 
-                            if (x >= rect.shapePosition.x && x <= rect.shapePosition.x + rect.width
-                                && y >= rect.shapePosition.y && y <= rect.shapePosition.y + rect.lenght) {
+        if (shapes) {
+            shapes.forEach(function (element: ShapeDTO) {
+                switch (element.type) {
+                    case 0:
+                        let rect: RectangleShape = (element.shape as unknown) as RectangleShape;
 
-                                shapesInRange.push(element);
-                            }
+                        if (x >= rect.shapePosition.x && x <= rect.shapePosition.x + rect.width
+                            && y >= rect.shapePosition.y && y <= rect.shapePosition.y + rect.lenght) {
 
-                            break;
-                        case 1:
-                            let circ: CircleShape = (element.shape as unknown) as CircleShape;
+                            shapesInRange.push(element);
+                        }
 
-                            if (Math.pow(x - circ.shapePosition.x, 2) + Math.pow(y - circ.shapePosition.y, 2) < Math.pow(circ.diameter, 2)) {
-                                shapesInRange.push(element);
-                            }
-                            break;
-                        case 2:
-                            let tri: TriangleShape = (element.shape as unknown) as TriangleShape;
+                        break;
+                    case 1:
+                        let circ: CircleShape = (element.shape as unknown) as CircleShape;
 
-                            var R1 = tri.baseLenght, R2 = tri.sideOne, R3 = tri.sideTwo;
-                            var Bx = R3, By = 0;
-                            var Cx = (R2 * R1 + R3 * R3 - R1 * R1) / (2 * R3);
-                            var Cy = Math.sqrt(R2 * R2 - Cx * Cx);
+                        if (Math.pow(x - circ.shapePosition.x, 2) + Math.pow(y - circ.shapePosition.y, 2) < Math.pow(circ.diameter, 2)) {
+                            shapesInRange.push(element);
+                        }
+                        break;
+                    case 2:
+                        let tri: TriangleShape = (element.shape as unknown) as TriangleShape;
 
-                            var d1, d2, d3;
-                            let has_neg: Boolean;
-                            let has_pos: Boolean;
+                        var R1 = tri.baseLenght, R2 = tri.sideOne, R3 = tri.sideTwo;
+                        var Bx = R3, By = 0;
+                        var Cx = (R2 * R1 + R3 * R3 - R1 * R1) / (2 * R3);
+                        var Cy = Math.sqrt(R2 * R2 - Cx * Cx);
 
-                            d1 = Sign(x, y, tri.shapePosition.x, tri.shapePosition.y, tri.shapePosition.x + Bx, tri.shapePosition.y - By);
-                            d2 = Sign(x, y, tri.shapePosition.x + Bx, tri.shapePosition.y - By, tri.shapePosition.x + Cx, tri.shapePosition.y - Cy);
-                            d3 = Sign(x, y, tri.shapePosition.x + Cx, tri.shapePosition.y - Cy, tri.shapePosition.x, tri.shapePosition.y);
+                        var d1, d2, d3;
+                        let has_neg: Boolean;
+                        let has_pos: Boolean;
 
-                            has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
-                            has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
+                        d1 = Sign(x, y, tri.shapePosition.x, tri.shapePosition.y, tri.shapePosition.x + Bx, tri.shapePosition.y - By);
+                        d2 = Sign(x, y, tri.shapePosition.x + Bx, tri.shapePosition.y - By, tri.shapePosition.x + Cx, tri.shapePosition.y - Cy);
+                        d3 = Sign(x, y, tri.shapePosition.x + Cx, tri.shapePosition.y - Cy, tri.shapePosition.x, tri.shapePosition.y);
 
-                            if (!(has_neg && has_pos)) {
-                                shapesInRange.push(element);
-                            }
+                        has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
+                        has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
 
-                            break;
-                    }
-                });
+                        if (!(has_neg && has_pos)) {
+                            shapesInRange.push(element);
+                        }
 
-                //Recherche de la forme étant au dessus de toutes les autres à la position du click
-                let found: ShapeDTO | null = null;
-                let zIndex: number = 0;
+                        break;
+                }
+            });
 
-                shapesInRange.forEach((s: ShapeDTO) => {
-                    if (zIndex <= s.shape.shapePosition.z) {
-                        zIndex = s.shape.shapePosition.z;
-                        found = s;
-                    }
-                });
+            //Recherche de la forme étant au dessus de toutes les autres à la position du click
+            let found: ShapeDTO | null = null;
+            let zIndex: number = 0;
 
-                //Si une forme a été trouvée
-                if (found) {
-                    //console.log(`${found.shape.name}`);
-                    setSelected(found.shape.id);
+            shapesInRange.forEach((s: ShapeDTO) => {
+                if (zIndex <= s.shape.shapePosition.z) {
+                    zIndex = s.shape.shapePosition.z;
+                    found = s;
+                }
+            });
 
-                    if (!prevent) {
-                        setOpen(true);
-                    } else {
-                        shapeID = found.shape.id;
-                    }
+            //Si une forme a été trouvée
+            if (found) {
+                //console.log(`${found.shape.name}`);
+                setSelected(found.shape.id);
+
+                if (!prevent) {
+                    setOpen(true);
+                        
+                } else {
+                    shapeID = found.shape.id;
                 }
             }
         }
-        
     }
 
     async function ShapeDown(evt: any) {
         if (shapeID > 0) {
+            setMenuLock(true);
+
             var x = evt.pageX - canvasRef.current.offsetLeft;
             var y = evt.pageY - canvasRef.current.offsetTop;
 
@@ -137,7 +139,6 @@ const Editor: NextPage = () => {
             shapeID = 0;
             setSelected(0);
         }     
-
 
         setDrag(false); 
     }
@@ -185,13 +186,13 @@ const Editor: NextPage = () => {
     }, [group])
 
     useEffect(() => {
-        canvasRef.current.removeEventListener("click", ShapeClick);
+        canvasRef.current.removeEventListener("contextmenu", () => { });
         canvasRef.current.removeEventListener("mousedown", () => { });
         canvasRef.current.removeEventListener("mouseup", () => { });
 
-        canvasRef.current.addEventListener('click', (e: any) => ShapeClick(e, dragging));
-        canvasRef.current.addEventListener('mousedown', (e: any) => { setDrag(true); ShapeClick(e, true); })
-        canvasRef.current.addEventListener('mouseup', (e:any) => { ShapeDown(e) })
+        canvasRef.current.addEventListener('contextmenu', (e: any) => { e.preventDefault(); ShapeClick(e); });
+        canvasRef.current.addEventListener('mousedown', (e: any) => { if (e.button == 0) { setDrag(true); ShapeClick(e, true); } })
+        canvasRef.current.addEventListener('mouseup', (e: any) => { if (e.button == 0) { ShapeDown(e); } })
     }, [shapes])
 
     return (
