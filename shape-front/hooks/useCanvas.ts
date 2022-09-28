@@ -57,7 +57,7 @@ export function useCanvas() {
         const canvasObj = canvasRef.current;
         const ctx = canvasObj!.getContext('2d');
 
-        ctx.clearRect(0, 0, width, height)
+        ctx.clearRect(0, 0, canvasObj.width, canvasObj.height)
 
         if (shapes) {
             shapes.forEach((shape) => { draw(ctx, shape); })

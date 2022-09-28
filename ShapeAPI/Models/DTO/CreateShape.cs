@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ShapeAPI.Models.Shapes;
+using System.ComponentModel.DataAnnotations;
 
 namespace ShapeAPI.Models.DTO
 {
@@ -8,6 +9,8 @@ namespace ShapeAPI.Models.DTO
         /// Représente le nom de la forme. Requis.
         /// </summary>
         [Required] public string Name { get; set; } = "Nouvelle forme";
+
+        public Position? Position { get; set; }
 
         /*#region 3D
         /// <summary>

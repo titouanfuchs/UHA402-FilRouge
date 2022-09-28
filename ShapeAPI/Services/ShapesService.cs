@@ -185,6 +185,9 @@ namespace ShapeAPI.Services
             if (shape is null)
                 throw new ArgumentException($"Shape with ID {id} not found.");
 
+            if (editQuery.Position is not null)
+                shape.ShapePosition = editQuery.Position;
+
             shape.Name = editQuery.Name;
 
             Type type = shape.GetType();
@@ -225,8 +228,6 @@ namespace ShapeAPI.Services
         public BaseShape CreateShape(CreateShape shapeQuery, ShapeType type)
         {
             BaseShape? newShape = null;
-
-            
 
             switch (type)
             {
@@ -270,7 +271,10 @@ namespace ShapeAPI.Services
                     throw new ArgumentNullException("Diameter must not be null. (Circle)");
             }
 
-            newShape.ShapePosition = new Position() { X = 0, Y = 0 };
+            if (shapeQuery.Position is not null)
+                newShape.ShapePosition = shapeQuery.Position;
+            else
+                newShape.ShapePosition = new Position() { X = 0, Y = 0 };
 
             _Context.SaveChanges();
 
