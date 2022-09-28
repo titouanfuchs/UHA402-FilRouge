@@ -100,6 +100,15 @@ const ShapeEditor = ({ shapeID, groupID, isOpen, closeEvent, createMode }: Shape
         close();
     }
 
+    const deleteShape = async () => {
+        console.log("Delete Shape");
+
+        await fetch(`/shapeAPI/api/Shape/${shapeID}`, { method: 'DELETE' });
+        await mutate(`/shapeAPI/api/Shape/Group/${groupID}`);
+
+        close();
+    }
+
     const createShape = async () => {
         let foundType = shapes.find((s) => { return s.name === selected; });
 
@@ -255,9 +264,14 @@ const ShapeEditor = ({ shapeID, groupID, isOpen, closeEvent, createMode }: Shape
             </div>
 
         </DialogBody>
-        <DialogFooter className="space-x-5">
-            <Button variant="gradient" color="green" onClick={() => shapeID > 0 ? updateShape() : createShape()}>Valider</Button>
-            <Button variant="gradient" color="red" onClick={() => close()}>Cancel</Button>
+        <DialogFooter className="flex justify-between">
+            <div className="">
+                <Button variant="gradient" color="red" onClick={() => deleteShape()}>Delete</Button>
+            </div>
+            <div className="space-x-5">
+                <Button variant="gradient" color="green" onClick={() => shapeID > 0 ? updateShape() : createShape()}>Valider</Button>
+                <Button variant="gradient" color="red" onClick={() => close()}>Cancel</Button>
+            </div>
         </DialogFooter>
     </Dialog>;
 };
