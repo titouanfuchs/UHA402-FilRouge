@@ -8,9 +8,15 @@ import { CircleShape } from "../../../../interfaces/CircleShape";
 import { RectangleShape } from "../../../../interfaces/RectangleShape";
 import { ShapeDTO } from "../../../../interfaces/ShapeDTO";
 import { ShapeGroup } from "../../../../interfaces/ShapeGroup";
-
+import { TriangleShape } from "../../../../interfaces/TriangleShape";
 
 const Editor: NextPage = () => {
+
+    const Sign = (p1x: number, p1y: number, p2x: number, p2y: number, p3x: number, p3y: number) => {
+
+        return (p1x - p3x) * (p2y - p3y) - (p2x - p3x) * (p1y - p3y);
+    }
+
     let ctx:any = null;
 
     const router = useRouter();
@@ -45,6 +51,28 @@ const Editor: NextPage = () => {
                     }
                     break;
                 case 2:
+                    let tri: TriangleShape = (element.shape as unknown) as TriangleShape;
+
+                    var R1 = tri.baseLenght, R2 = tri.sideOne, R3 = tri.sideTwo;
+                    var Bx = R3, By = 0;
+                    var Cx = (R2 * R1 + R3 * R3 - R1 * R1) / (2 * R3);
+                    var Cy = Math.sqrt(R2 * R2 - Cx * Cx);
+
+                    var d1, d2, d3;
+                    let has_neg: Boolean;
+                    let has_pos: Boolean;
+
+                    d1 = Sign(x, y, tri.shapePosition.x, tri.shapePosition.y, tri.shapePosition.x + Bx, tri.shapePosition.y - By);
+                    d2 = Sign(x, y, tri.shapePosition.x + Bx, tri.shapePosition.y - By, tri.shapePosition.x + Cx, tri.shapePosition.y - Cy);
+                    d3 = Sign(x, y, tri.shapePosition.x + Cx, tri.shapePosition.y - Cy, tri.shapePosition.x, tri.shapePosition.y);
+
+                    has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
+                    has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
+
+                    if (!(has_neg && has_pos)) {
+                        console.log(`${tri.name}`);
+                    }
+
                     break;
             }
         });
