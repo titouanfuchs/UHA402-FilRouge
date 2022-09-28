@@ -30,6 +30,12 @@ const Editor: NextPage = () => {
                 case 0:
                     let rect: RectangleShape = (element.shape as unknown) as RectangleShape;
 
+                    if (x >= rect.shapePosition.x && x <= rect.shapePosition.x + rect.width
+                        && y >= rect.shapePosition.y && y <= rect.shapePosition.y + rect.lenght) {
+
+                        console.log(`${rect.name}`);
+                    }
+
                     break;
                 case 1:
                     let circ: CircleShape = (element.shape as unknown) as CircleShape;
@@ -100,6 +106,7 @@ const Editor: NextPage = () => {
                     <canvas ref={canvasRef} className=" w-full h-full"></canvas>
                 </div>
                 <Card className="border w-[30rem]">
+                    test
                 </Card>
             </div>
         </div>
