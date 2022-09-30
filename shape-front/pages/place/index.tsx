@@ -26,7 +26,7 @@ const Place: NextPage = () => {
     return (
         <div id="PlaceCanvas" className="flex flex-wrap justify-center border border-black p-2 m-auto">
             {data.map((group: ShapeGroup, index: number) =>
-                <Menu>
+                <Menu key={group.groupName}>
                     <MenuHandler>
                         <div className="aspect-square border w-20 hover:scale-150 hover:z-[10] transition-all bg-white hover:shadow-lg ease-in-out cursor-pointer">
                             {group.id}

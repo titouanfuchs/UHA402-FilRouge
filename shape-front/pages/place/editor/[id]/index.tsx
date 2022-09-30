@@ -24,6 +24,8 @@ const Editor: NextPage = () => {
     let shapeID: number = 0; 
     const [dragging, setDrag] = useState<boolean>(false);
 
+    const [isInitialized, setInizialized] = useState<boolean>(false);
+
     const Sign = (p1x: number, p1y: number, p2x: number, p2y: number, p3x: number, p3y: number) => {
 
         return (p1x - p3x) * (p2y - p3y) - (p2x - p3x) * (p1y - p3y);
@@ -122,8 +124,6 @@ const Editor: NextPage = () => {
 
     async function ShapeDown(evt: any) {
         if (shapeID > 0) {
-            setMenuLock(true);
-
             var x = evt.pageX - canvasRef.current.offsetLeft;
             var y = evt.pageY - canvasRef.current.offsetTop;
 
@@ -158,6 +158,10 @@ const Editor: NextPage = () => {
 
         canCtx = can!.getContext("2d");
 
+        canvasRef.current.addEventListener('contextmenu', (e: any) => { e.preventDefault(); ShapeClick(e); });
+        canvasRef.current.addEventListener('mousedown', (e: any) => { if (e.button == 0) { setDrag(true); ShapeClick(e, true); } });
+        canvasRef.current.addEventListener('mouseup', (e: any) => { if (e.button == 0) { ShapeDown(e); } });
+
         if (id) {
             /*fetch(`/shapeAPI/api/Shape/Group/${id}`)
                 .then((res) => res.json())
@@ -184,16 +188,6 @@ const Editor: NextPage = () => {
         }
         
     }, [group])
-
-    useEffect(() => {
-        canvasRef.current.removeEventListener("contextmenu", () => { });
-        canvasRef.current.removeEventListener("mousedown", () => { });
-        canvasRef.current.removeEventListener("mouseup", () => { });
-
-        canvasRef.current.addEventListener('contextmenu', (e: any) => { e.preventDefault(); ShapeClick(e); });
-        canvasRef.current.addEventListener('mousedown', (e: any) => { if (e.button == 0) { setDrag(true); ShapeClick(e, true); } })
-        canvasRef.current.addEventListener('mouseup', (e: any) => { if (e.button == 0) { ShapeDown(e); } })
-    }, [shapes])
 
     return (
         <Fragment>
