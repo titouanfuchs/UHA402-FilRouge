@@ -1,9 +1,8 @@
-﻿import { Button, Card, Navbar, Typography } from "@material-tailwind/react";
+﻿import { Button, Navbar, Typography } from "@material-tailwind/react";
 import { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Fragment, useEffect, useRef, useState } from "react";
-import { Shape } from "react-konva";
+import { Fragment, useEffect, useState } from "react";
 import useSWR, { mutate } from "swr";
 import { useCanvas } from "../../../../hooks/useCanvas";
 import { CircleShape } from "../../../../interfaces/CircleShape";
@@ -18,13 +17,14 @@ const fetcher = (...args: any[]) => fetch(...args).then(res => res.json())
 
 const Editor: NextPage = () => {
 
-    const [isOpen, setOpen] = useState(false);
+    const [isOpen, setOpen] = useState<boolean>(false);
     const [selectedShape, setSelected] = useState<number>(0);
-    const [isMenuLocked, setMenuLock] = useState(false);
-    let shapeID: number = 0; 
+    const [isEventInitialized, setInitialized] = useState<boolean>(false);
+    const [isMenuLocked, setMenuLock] = useState<boolean>(false);
     const [dragging, setDrag] = useState<boolean>(false);
-
     const [isInitialized, setInizialized] = useState<boolean>(false);
+
+    let shapeID: number = 0; 
 
     const Sign = (p1x: number, p1y: number, p2x: number, p2y: number, p3x: number, p3y: number) => {
 
@@ -42,13 +42,11 @@ const Editor: NextPage = () => {
     const [shapes, setShapes, canvasRef, width, setWidth, height, setHeight] = useCanvas();
 
     function ShapeClick(e: any, prevent: boolean = false) {
-
         var x = e.pageX - canvasRef.current.offsetLeft;
         var y = e.pageY - canvasRef.current.offsetTop;
 
         //Recherche de toutes les formes pouvant correspondre au click
         let shapesInRange: ShapeDTO[] = [];
-
         if (shapes) {
             shapes.forEach(function (element: ShapeDTO) {
                 switch (element.type) {
@@ -153,24 +151,20 @@ const Editor: NextPage = () => {
     useEffect(() => {
         const can = canvasRef.current;
 
-        can!.width = can.clientWidth;
-        can!.height = can.clientHeight;
+            can!.width = can.clientWidth;
+            can!.height = can.clientHeight;
 
-        canCtx = can!.getContext("2d");
-
-        canvasRef.current.addEventListener('contextmenu', (e: any) => { e.preventDefault(); ShapeClick(e); });
-        canvasRef.current.addEventListener('mousedown', (e: any) => { if (e.button == 0) { setDrag(true); ShapeClick(e, true); } });
-        canvasRef.current.addEventListener('mouseup', (e: any) => { if (e.button == 0) { ShapeDown(e); } });
-
-        if (id) {
-            /*fetch(`/shapeAPI/api/Shape/Group/${id}`)
-                .then((res) => res.json())
-                .then((data) => {
-                    setGroup(data);
-                });*/
-
-            mutate(`/shapeAPI/api/Shape/Group/${id}`);
-        }
+            canCtx = can!.getContext("2d");
+    
+            if (id) {
+                /*fetch(`/shapeAPI/api/Shape/Group/${id}`)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        setGroup(data);
+                    });*/
+    
+                mutate(`/shapeAPI/api/Shape/Group/${id}`);
+            }        
     }, [id])
 
     useEffect(() => {
@@ -188,6 +182,18 @@ const Editor: NextPage = () => {
         }
         
     }, [group])
+
+    useEffect(()=>{
+        const can = canvasRef.current;
+
+        can.removeEventListener('contextmenu', (e: any) => { e.preventDefault(); ShapeClick(e); });
+        can.removeEventListener('mousedown', (e: any) => { if (e.button === 0) { setDrag(true); ShapeClick(e, true); } });
+        can.removeEventListener('mouseup', (e: any) => { if (e.button === 0) { ShapeDown(e); } });  
+
+        can.addEventListener('contextmenu', (e: any) => { e.preventDefault(); ShapeClick(e); });
+        can.addEventListener('mousedown', (e: any) => { if (e.button === 0) { setDrag(true); ShapeClick(e, true); } });
+        can.addEventListener('mouseup', (e: any) => { if (e.button === 0) { ShapeDown(e); } });  
+    }, [shapes])
 
     return (
         <Fragment>

@@ -63,7 +63,7 @@ export function useCanvas() {
             shapes.forEach((shape) => { draw(ctx, shape); })
         }
 
-    })
+    }, [shapes,canvasRef,width,height])
 
     return [shapes, setShapes, canvasRef, width, setWidth, height, setHeight];
 }
