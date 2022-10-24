@@ -1,4 +1,5 @@
 ﻿import { Button, Navbar, Typography } from "@material-tailwind/react";
+import { Console } from "console";
 import { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -19,10 +20,11 @@ const Editor: NextPage = () => {
 
     const [isOpen, setOpen] = useState<boolean>(false);
     const [selectedShape, setSelected] = useState<number>(0);
-    const [isEventInitialized, setInitialized] = useState<boolean>(false);
+    const [isEventInitialized, setEventsInitiliazed] = useState<boolean>(false);
     const [isMenuLocked, setMenuLock] = useState<boolean>(false);
     const [dragging, setDrag] = useState<boolean>(false);
     const [isInitialized, setInizialized] = useState<boolean>(false);
+    const [events, setEvents] = useState<any[]>([]);
 
     let shapeID: number = 0; 
 
@@ -107,7 +109,7 @@ const Editor: NextPage = () => {
 
             //Si une forme a été trouvée
             if (found) {
-                //console.log(`${found.shape.name}`);
+                console.log(`${found.shape.name}`);
                 setSelected(found.shape.id);
 
                 if (!prevent) {
@@ -169,7 +171,7 @@ const Editor: NextPage = () => {
 
     useEffect(() => {
         if (data) {
-            setShapes([]);
+            //setShapes([]);
             setGroup(data);
         }
     }, [data])
@@ -183,16 +185,35 @@ const Editor: NextPage = () => {
         
     }, [group])
 
+    function handleContextMenu(e:any){
+        e.preventDefault(); ShapeClick(e);
+    }
+
+    function handleMouseDown(e:any){
+        console.log(`MouseDown : ${e.button}`);
+
+        if (e.button == 0) 
+        { 
+            setDrag(true); 
+            ShapeClick(e, true);
+        }
+    }
+
+    function handleMouseUp(e:any){
+        console.log(`MouseUp : ${e.button}`);
+
+        if (e.button == 0)
+        { 
+            ShapeDown(e);
+        }
+    }
+
     useEffect(()=>{
         const can = canvasRef.current;
 
-        can.removeEventListener('contextmenu', (e: any) => { e.preventDefault(); ShapeClick(e); });
-        can.removeEventListener('mousedown', (e: any) => { if (e.button === 0) { setDrag(true); ShapeClick(e, true); } });
-        can.removeEventListener('mouseup', (e: any) => { if (e.button === 0) { ShapeDown(e); } });  
-
-        can.addEventListener('contextmenu', (e: any) => { e.preventDefault(); ShapeClick(e); });
-        can.addEventListener('mousedown', (e: any) => { if (e.button === 0) { setDrag(true); ShapeClick(e, true); } });
-        can.addEventListener('mouseup', (e: any) => { if (e.button === 0) { ShapeDown(e); } });  
+        can.addEventListener('contextmenu', (e: any) => { handleContextMenu(e) }, true);
+        can.addEventListener('mousedown', (e: any) => { handleMouseDown(e) }, true);
+        can.addEventListener('mouseup', (e: any) => { handleMouseUp(e) }, true);
     }, [shapes])
 
     return (
