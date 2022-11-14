@@ -16,8 +16,7 @@ builder.Services.AddTransient<ShapesService>();
 #region Database
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString($"database"));
-    //options.EnableSensitiveDataLogging();
+    options.UseNpgsql(builder.Configuration.GetConnectionString($"database")).EnableSensitiveDataLogging();
 });
 
 #endregion
@@ -60,9 +59,9 @@ using (var scope = app.Services.CreateScope())
     //Modification de l'état initial de l'application
     if (dataContext.ShapesGroups.Count() == 0)
     {
-        var group = shapeService.CreateGroup("Default Group");
+        //var group = shapeService.CreateGroup("Default Group");
 
-        var rect = shapeService.CreateShape(
+        /*var rect = shapeService.CreateShape(
             new CreateShape { 
                 Name = "Rectangle",
                 Lenght = 10,
@@ -104,7 +103,7 @@ using (var scope = app.Services.CreateScope())
         shapeService.AddShapeToGroup(group.Id, rect.Id);
         shapeService.AddShapeToGroup(group.Id, rectb.Id);
         shapeService.AddShapeToGroup(group.Id, tri.Id);
-        shapeService.AddShapeToGroup(group.Id, circ.Id);
+        shapeService.AddShapeToGroup(group.Id, circ.Id);*/
     }
 
 }

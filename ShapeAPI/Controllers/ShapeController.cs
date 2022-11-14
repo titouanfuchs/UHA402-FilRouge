@@ -15,6 +15,19 @@ namespace ShapeAPI.Controllers
         }
 
         /// <summary>
+        /// Initialise le programme
+        /// </summary>
+        /// <param name="X">Nombre de colonnes</param>
+        /// <param name="Y">Nombre de lignes</param>
+        /// <returns></returns>
+        [HttpGet("Init/{X}/{Y}")]
+        public ActionResult Init([Required] int X, [Required] int Y)
+        {
+            _ShapesService.Init(X, Y);
+            return Ok();
+        }
+
+        /// <summary>
         /// Retourne toutes les formes de tous les groupes
         /// </summary>
         [HttpGet()]
@@ -32,19 +45,7 @@ namespace ShapeAPI.Controllers
         {
             var shape = _ShapesService.GetShape(id);
 
-            ShapeType shapeType;
-            Type currentType = shape.GetType();
-
-            if (currentType == typeof(RectangleShape)) shapeType = ShapeType.Rectangle;
-            else if (currentType == typeof(TriangleShape)) shapeType = ShapeType.Triangle;
-            else if (currentType == typeof(CircleShape)) shapeType = ShapeType.Circle;
-            else throw new ArgumentException($"Shape with ID {id} is not a valid Shape");
-
-            return Ok(new ShapeDTO()
-            {
-                Shape = shape,
-                Type = shapeType
-            });
+            return Ok(_ShapesService.CreateShapeDTO(shape));
         }
 
         /// <summary>
@@ -60,8 +61,15 @@ namespace ShapeAPI.Controllers
             }
             catch(Exception e)
             {
-                return StatusCode(500, new BaseResponse($"Shape with ID {id} not found."));
+                return StatusCode(418, new BaseResponse($"Shape with ID {id} not found."));
             }
+        }
+
+        [HttpPatch("SetPosition/{id}")]
+        public ActionResult SetShapePosition(int id, [FromBody] ShapePositionDTO query)
+        {
+            _ShapesService.SetShapePosition(id, query);
+            return Ok();
         }
 
         /// <summary>
@@ -90,18 +98,19 @@ namespace ShapeAPI.Controllers
         ///     1: Circle
         ///     2: Triangle
         /// </param>
-        [HttpPost("{shapeType}")]
-        public ActionResult<BaseShape> CreateShape([Required] ShapeType shapeType,[FromBody][Required] CreateShape createQuery)
+        [HttpPost("{shapeType}/{groupID}")]
+        public ActionResult<BaseShape> CreateShape([Required] ShapeType shapeType,[FromBody][Required] CreateShape createQuery, [Required] int groupID)
         {
             try
             {
                 BaseShape shape = _ShapesService.CreateShape(createQuery, shapeType);
+                _ShapesService.AddShapeToGroup(groupID, shape.Id);
 
                 return StatusCode(201, shape);
             }
             catch(Exception e)
             {
-                return StatusCode(500, new BaseResponse($"Error : {e.Message}"));
+                return StatusCode(418, new BaseResponse($"Error : {e.Message}"));
             }
         }
 
@@ -155,7 +164,7 @@ namespace ShapeAPI.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, $"Error: {e.Message}");
+                return StatusCode(418, $"Error: {e.Message}");
             }
 
         }
@@ -172,7 +181,7 @@ namespace ShapeAPI.Controllers
                 return _ShapesService.GetGroup(id);
             }catch(Exception e)
             {
-                return StatusCode(500, $"Error: {e.Message}");
+                return StatusCode(418, $"Error: {e.Message}");
             }
 
         }
@@ -192,7 +201,7 @@ namespace ShapeAPI.Controllers
             }
             catch(Exception e)
             {
-                return StatusCode(500, $"Error : {e.Message}");
+                return StatusCode(418, $"Error : {e.Message}");
             }
         }
     }

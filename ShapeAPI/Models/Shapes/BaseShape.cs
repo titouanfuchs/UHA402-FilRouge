@@ -16,6 +16,7 @@ namespace ShapeAPI.Models.Shapes
 
         public double Surface { get => CalculateSurface(); }
         public double Perimeter { get => CalculatePerimeter(); }
+        public Position ShapePosition { get; set; }
         #endregion
 
 

@@ -41,13 +41,40 @@ namespace ShapeAPI.Migrations
                     b.Property<int?>("ShapeGroupId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("ShapePositionID")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ShapeGroupId");
 
-                    b.ToTable("BaseShape");
+                    b.HasIndex("ShapePositionID");
+
+                    b.ToTable("Shapes");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("BaseShape");
+                });
+
+            modelBuilder.Entity("ShapeAPI.Models.Shapes.Position", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
+
+                    b.Property<double>("X")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Y")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("Z")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Positions");
                 });
 
             modelBuilder.Entity("ShapeAPI.Models.Shapes.ShapeGroup", b =>
@@ -62,7 +89,16 @@ namespace ShapeAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("GroupPositionID")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Owner")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("GroupPositionID");
 
                     b.ToTable("ShapesGroups");
                 });
@@ -111,6 +147,25 @@ namespace ShapeAPI.Migrations
                     b.HasOne("ShapeAPI.Models.Shapes.ShapeGroup", null)
                         .WithMany("Shapes")
                         .HasForeignKey("ShapeGroupId");
+
+                    b.HasOne("ShapeAPI.Models.Shapes.Position", "ShapePosition")
+                        .WithMany()
+                        .HasForeignKey("ShapePositionID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ShapePosition");
+                });
+
+            modelBuilder.Entity("ShapeAPI.Models.Shapes.ShapeGroup", b =>
+                {
+                    b.HasOne("ShapeAPI.Models.Shapes.Position", "GroupPosition")
+                        .WithMany()
+                        .HasForeignKey("GroupPositionID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GroupPosition");
                 });
 
             modelBuilder.Entity("ShapeAPI.Models.Shapes.ShapeGroup", b =>
