@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 import useSWR from 'swr';
 import { ShapeGroup } from '../../interfaces/ShapeGroup';
+import ShapePreviewComponent from "./components/shapePreviewComponent";
 
 const fetcher = (...args: any[]) => fetch(...args).then(res => res.json())
 
@@ -28,9 +29,7 @@ const Place: NextPage = () => {
             {data.map((group: ShapeGroup, index: number) =>
                 <Menu key={group.groupName}>
                     <MenuHandler>
-                        <div className="aspect-square border w-20 hover:scale-150 hover:z-[10] transition-all bg-white hover:shadow-lg ease-in-out cursor-pointer">
-                            {group.id}
-                        </div>
+                        <ShapePreviewComponent shapeId={group.id}/>
                     </MenuHandler>
                     <MenuList>
                         <MenuItem disabled>Voter pour la suppression</MenuItem>
